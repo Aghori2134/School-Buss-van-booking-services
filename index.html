@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SchoolVan | Aurangabad</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f7faff;
+  color: #202a38;
+}
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #202a38;
+  animation: loaderHide 0.5s ease 1.5s forwards;
+}
+
+@keyframes loaderHide {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+.loader-circle {
+  width: 55px;
+  height: 55px;
+  border: 5px solid #ffffff30;
+  border-top-color: #83d6ff;
+  border-right-color: #ffa9cf;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 13px 15px;
+  border-radius: 14px;
+  color: #b9c6d7;
+  transition: 0.3s;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+  background: #d9f2ff;
+  color: #202a38;
+}
+.reveal {
+  animation: reveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 35%;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(45px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.float-van {
+  animation: floatVan 4s ease-in-out infinite;
+}
+
+@keyframes floatVan {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+.progress-line {
+  transform-origin: left;
+  animation: growLine linear both;
+  animation-timeline: scroll();
+}
+
+@keyframes growLine {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.popover {
+  position: relative;
+}
+
+.popover > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.popover > summary::-webkit-details-marker {
+  display: none;
+}
+
+.popover-panel {
+  position: absolute;
+  z-index: 60;
+  bottom: calc(100% + 12px);
+  left: 0;
+  width: min(320px, 88vw);
+  max-height: 75vh;
+  overflow-y: auto;
+  padding: 22px;
+  border-radius: 20px;
+  background: white;
+  color: #202a38;
+  box-shadow: 0 20px 60px #10182735;
+  animation: popOpen 0.25s ease-out;
+}
+
+@keyframes popOpen {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mobile-menu {
+  display: none;
+}
+
+#mobile-toggle:checked ~ .mobile-menu {
+  display: block;
+}
+
+#mobile-toggle:checked + label .menu-open {
+  display: none;
+}
+
+#mobile-toggle:checked + label .menu-close {
+  display: inline;
+}
+
+.menu-close {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+</style>
+</head>
+
+<body class="overflow-x-hidden">
+<div id="loader">
+  <div class="mb-5 text-4xl text-sky-300">
+    <i class="ri-bus-2-fill"></i>
+  </div>
+  <div class="loader-circle"></div>
+  <h2 class="mt-5 text-2xl font-bold text-white">
+    School<span class="text-sky-300">Van</span>
+  </h2>
+  <p class="mt-2 text-sm text-slate-300">
+    Making school journeys safer...
+  </p>
+</div>
+<div class="progress-line fixed left-0 top-0 z-[90] h-1 w-full bg-sky-400"></div>
+<aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-[#202a38] px-5 py-7 lg:flex">
+
+  <a href="#home" class="mb-10 flex items-center gap-3 px-2">
+    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-300 text-3xl text-slate-900">
+      <i class="ri-bus-2-fill"></i>
+    </div>
+    <div>
+      <h1 class="text-2xl font-extrabold text-white">
+        School<span class="text-sky-300">Van</span>
+      </h1>
+      <p class="text-xs text-slate-400">Aurangabad, Maharashtra</p>
+    </div>
+  </a>
+
+  <p class="mb-3 px-3 text-xs font-bold uppercase tracking-[3px] text-slate-500">
+    Main Menu
+  </p>
+
+  <nav class="space-y-2">
+    <a href="#home" class="sidebar-link">
+      <i class="ri-home-5-line text-xl"></i> Home
+    </a>
+    <a href="#services" class="sidebar-link">
+      <i class="ri-route-line text-xl"></i> Our Services
+    </a>
+    <a href="#how" class="sidebar-link">
+      <i class="ri-calendar-check-line text-xl"></i> How It Works
+    </a>
+    <a href="#schools" class="sidebar-link">
+      <i class="ri-school-line text-xl"></i> Schools
+    </a>
+    <a href="#safety" class="sidebar-link">
+      <i class="ri-shield-check-line text-xl"></i> Safety
+    </a>
+    <a href="#contact" class="sidebar-link">
+      <i class="ri-customer-service-2-line text-xl"></i> Contact
+    </a>
+  </nav>
+
+  <div class="mt-9 rounded-2xl border border-slate-600 bg-slate-700/50 p-4">
+    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-pink-200 text-xl text-slate-800">
+      <i class="ri-map-pin-2-line"></i>
+    </div>
+    <h3 class="font-bold text-white">Location Aurangabad</h3>
+    <p class="mt-2 text-sm leading-6 text-slate-300">
+      Designed for local schools, parents and school van drivers.
+    </p>
+  </div>
+
+  <div class="mt-auto space-y-3 pt-6">
+    <details class="popover">
+      <summary class="rounded-xl bg-sky-300 px-4 py-3 text-center font-bold text-slate-900 transition hover:bg-sky-200">
+        <i class="ri-user-line mr-2"></i> Student Login
+      </summary>
+
+      <div class="popover-panel">
+        <h3 class="text-xl font-black">Student / Parent Login</h3>
+        <p class="mt-2 text-sm text-slate-500">
+          Access your school transport account.
+        </p>
+
+        <form action="#" class="mt-5 space-y-4">
+          <div>
+            <label for="studentPhone" class="mb-2 block text-sm font-semibold">Mobile Number</label>
+            <input id="studentPhone" type="tel" required placeholder="Enter mobile number" class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400">
+          </div>
+          <div>
+            <label for="studentPassword" class="mb-2 block text-sm font-semibold">Password</label>
+            <input id="studentPassword" type="password" required placeholder="Enter password" class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400">
+          </div>
+          <button type="submit" class="w-full rounded-xl bg-sky-300 py-3 font-bold">Login</button>
+        </form>
+
+        <p class="mt-4 text-xs leading-5 text-slate-400">
+          Demo only. Login is not connected to an authentication service.
+        </p>
+      </div>
+    </details>
+    <details class="popover">
+      <summary class="rounded-xl border border-pink-200 px-4 py-3 text-center font-bold text-pink-200 transition hover:bg-pink-200 hover:text-slate-900">
+        <i class="ri-steering-2-line mr-2"></i> Driver Login
+      </summary>
+
+      <div class="popover-panel">
+        <h3 class="text-xl font-black">Driver Login</h3>
+        <p class="mt-2 text-sm text-slate-500">For school van drivers.</p>
+
+        <form action="#" class="mt-5 space-y-4">
+          <div>
+            <label for="driverId" class="mb-2 block text-sm font-semibold">Driver ID</label>
+            <input id="driverId" type="text" required placeholder="Enter driver ID" class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400">
+          </div>
+          <div>
+            <label for="driverPassword" class="mb-2 block text-sm font-semibold">Password</label>
+            <input id="driverPassword" type="password" required placeholder="Enter password" class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400">
+          </div>
+          <button type="submit" class="w-full rounded-xl bg-[#202a38] py-3 font-bold text-white">Driver Sign In</button>
+        </form>
+
+        <p class="mt-4 text-xs leading-5 text-slate-400">
+          Demo only. Driver authentication is not implemented.
+        </p>
+      </div>
+    </details>
+
+  </div>
+</aside>
+<header class="fixed left-0 right-0 top-0 z-40 flex items-center justify-between bg-[#202a38] px-5 py-4 lg:hidden">
+
+  <a href="#home" class="text-xl font-extrabold text-white">
+    <i class="ri-bus-2-fill mr-2 text-sky-300"></i>
+    School<span class="text-sky-300">Van</span>
+  </a>
+
+  <input type="checkbox" id="mobile-toggle" class="peer hidden">
+
+  <label for="mobile-toggle" class="cursor-pointer text-3xl text-white">
+    <i class="ri-menu-3-line menu-open"></i>
+    <i class="ri-close-line menu-close"></i>
+  </label>
+
+  <nav class="mobile-menu absolute left-0 top-full w-full bg-[#202a38] px-5 pb-6 pt-3 shadow-xl">
+    <a href="#home" class="block py-3 text-white">Home</a>
+    <a href="#services" class="block py-3 text-white">Our Services</a>
+    <a href="#how" class="block py-3 text-white">How It Works</a>
+    <a href="#schools" class="block py-3 text-white">Schools</a>
+    <a href="#safety" class="block py-3 text-white">Safety</a>
+    <a href="#contact" class="block py-3 text-white">Contact</a>
+
+    <div class="mt-4 grid grid-cols-2 gap-3">
+      <a href="#student-access" class="rounded-xl bg-sky-300 p-3 text-center font-bold text-slate-900">Student Login</a>
+      <a href="#driver-access" class="rounded-xl bg-pink-200 p-3 text-center font-bold text-slate-900">Driver Login</a>
+    </div>
+  </nav>
+</header>
+<main class="pt-20 lg:ml-64 lg:pt-0">
+<section id="home" class="relative overflow-hidden bg-[#202a38] px-6 py-16 text-white sm:px-10 lg:min-h-[620px] lg:px-14 lg:py-20">
+
+  <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl"></div>
+  <div class="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-pink-300/10 blur-3xl"></div>
+
+  <div class="relative grid items-center gap-12 lg:grid-cols-2">
+
+    <div class="reveal">
+
+      <h2 class="max-w-xl text-4xl font-black leading-tight sm:text-5xl xl:text-6xl">
+        A safer ride for every
+        <span class="text-sky-300">school day.</span>
+      </h2>
+
+      <p class="mt-6 max-w-lg text-base leading-8 text-slate-300 sm:text-lg">
+        SchoolVan helps students and parents explore school transport options, request van bookings and stay informed about daily journeys in Aurangabad.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        <a href="#student-access" class="rounded-2xl bg-pink-200 px-6 py-4 font-bold text-slate-900 shadow-lg transition hover:-translate-y-1 hover:bg-pink-100">
+          Book a School Van <i class="ri-arrow-right-line ml-2"></i>
+        </a>
+
+        <a href="#how" class="rounded-2xl border border-slate-500 px-6 py-4 font-semibold transition hover:border-sky-300 hover:text-sky-300">
+          Explore How It Works
+        </a>
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300">
+        <span><i class="ri-shield-check-fill mr-1 text-sky-300"></i> Safety focused</span>
+        <span><i class="ri-parent-line mr-1 text-pink-300"></i> Parent friendly</span>
+        <span><i class="ri-map-pin-fill mr-1 text-sky-300"></i> Local service</span>
+      </div>
+    </div>
+
+    <div class="relative reveal">
+      <div class="absolute -inset-4 rounded-[35px] bg-gradient-to-br from-sky-300/20 to-pink-200/20 blur-xl"></div>
+
+      <div class="relative overflow-hidden rounded-[30px] border border-white/10 bg-slate-700">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3wPOD0lmfa6BYIiOhagwcVEj4EDRWQw5MV0diDkG8A&s=10" alt="Children getting ready for their school day" class="h-[320px] w-full object-cover opacity-90 sm:h-[410px]">
+
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent"></div>
+
+        <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <p class="text-sm text-sky-200">Your daily journey</p>
+              <h3 class="mt-1 text-xl font-bold text-white">Home to School</h3>
+              <p class="mt-1 text-sm text-slate-200">Simple booking. Clear updates.</p>
+            </div>
+            <div class="float-van flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-pink-200 text-3xl text-slate-900">
+              <i class="ri-bus-2-fill"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="absolute -left-5 top-8 hidden rounded-2xl bg-white p-4 text-slate-800 shadow-xl sm:block">
+        <i class="ri-shield-check-fill text-2xl text-sky-500"></i>
+        <p class="mt-1 text-sm font-bold">Safety comes first</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section class="px-6 py-8 sm:px-10 lg:px-14">
+  <div class="grid gap-4 sm:grid-cols-3">
+
+    <div class="reveal rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+      <i class="ri-user-heart-line text-3xl text-pink-400"></i>
+      <h3 class="mt-4 text-lg font-bold">For Parents & Students</h3>
+      <p class="mt-2 text-sm leading-6 text-slate-500">Explore transport options and submit a booking request with ease.</p>
+    </div>
+
+    <div class="reveal rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+      <i class="ri-steering-2-line text-3xl text-sky-500"></i>
+      <h3 class="mt-4 text-lg font-bold">For Van Drivers</h3>
+      <p class="mt-2 text-sm leading-6 text-slate-500">Access a dedicated driver login for managing requests and trips.</p>
+    </div>
+
+    <div class="reveal rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
+      <i class="ri-school-line text-3xl text-pink-400"></i>
+      <h3 class="mt-4 text-lg font-bold">For Local Schools</h3>
+      <p class="mt-2 text-sm leading-6 text-slate-500">A practice concept designed around the needs of Aurangabad schools.</p>
+    </div>
+
+  </div>
+</section>
+<section id="services" class="px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-5">
+    <div>
+      <p class="font-bold uppercase tracking-[3px] text-sky-600">What We Offer</p>
+      <h2 class="mt-3 text-3xl font-black sm:text-4xl">Transport made simpler.</h2>
+      <p class="mt-3 max-w-xl leading-7 text-slate-500">Useful tools for the people who make every school journey happen.</p>
+    </div>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700"><i class="ri-calendar-check-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Easy Van Booking</h3>
+      <p class="mt-3 leading-7 text-slate-500">Submit your school, pickup location and preferred travel schedule in one place.</p>
+      <a href="#student-access" class="mt-5 inline-block font-bold text-sky-700">Start booking <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600"><i class="ri-map-pin-user-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Pickup Details</h3>
+      <p class="mt-3 leading-7 text-slate-500">Share your area and preferred pickup point so your transport request is clear.</p>
+      <a href="#how" class="mt-5 inline-block font-bold text-sky-700">Learn the process <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700"><i class="ri-notification-3-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Journey Updates</h3>
+      <p class="mt-3 leading-7 text-slate-500">Keep booking and journey information organized in one convenient interface.</p>
+      <a href="#safety" class="mt-5 inline-block font-bold text-sky-700">Explore features <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600"><i class="ri-parent-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Parent-Friendly Access</h3>
+      <p class="mt-3 leading-7 text-slate-500">Give parents a dedicated place to review their child's transport arrangements.</p>
+      <a href="#student-access" class="mt-5 inline-block font-bold text-sky-700">Parent / Student login <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700"><i class="ri-steering-2-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Driver Dashboard</h3>
+      <p class="mt-3 leading-7 text-slate-500">Provide drivers with their own entry point for handling assigned journeys.</p>
+      <a href="#driver-access" class="mt-5 inline-block font-bold text-sky-700">Driver sign in <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+    <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
+      <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600"><i class="ri-customer-service-2-line"></i></div>
+      <h3 class="mt-5 text-xl font-bold">Transport Assistance</h3>
+      <p class="mt-3 leading-7 text-slate-500">Help families know whom to contact about bookings and school transport queries.</p>
+      <a href="#contact" class="mt-5 inline-block font-bold text-sky-700">Contact us <i class="ri-arrow-right-line"></i></a>
+    </article>
+
+  </div>
+</section>
+<section id="how" class="bg-[#eaf7ff] px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mx-auto max-w-3xl text-center">
+    <p class="font-bold uppercase tracking-[3px] text-sky-700">A Simple Process</p>
+    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Three steps to get started.</h2>
+    <p class="mt-4 leading-7 text-slate-600">A straightforward booking journey for families in Aurangabad.</p>
+  </div>
+
+  <div class="mt-12 grid gap-6 md:grid-cols-3">
+
+    <div class="reveal rounded-3xl bg-white p-7 shadow-sm">
+      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-200 text-xl font-black">01</span>
+      <i class="ri-user-add-line mt-6 block text-3xl text-sky-600"></i>
+      <h3 class="mt-4 text-xl font-bold">Create an Account</h3>
+      <p class="mt-3 leading-7 text-slate-500">Register as a student or parent and provide the basic details needed for a request.</p>
+    </div>
+
+    <div class="reveal rounded-3xl bg-white p-7 shadow-sm">
+      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sky-200 text-xl font-black">02</span>
+      <i class="ri-bus-line mt-6 block text-3xl text-pink-500"></i>
+      <h3 class="mt-4 text-xl font-bold">Request a School Van</h3>
+      <p class="mt-3 leading-7 text-slate-500">Choose your school, area, pickup point and preferred school travel schedule.</p>
+    </div>
+
+    <div class="reveal rounded-3xl bg-white p-7 shadow-sm">
+      <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-200 text-xl font-black">03</span>
+      <i class="ri-shield-check-line mt-6 block text-3xl text-sky-600"></i>
+      <h3 class="mt-4 text-xl font-bold">Confirm with Your School</h3>
+      <p class="mt-3 leading-7 text-slate-500">Wait for transport confirmation and follow the instructions provided by the school or driver.</p>
+    </div>
+
+  </div>
+
+  <p class="mt-8 text-center text-sm text-slate-500">
+    Booking confirmation and live tracking require a connected backend and verified transport providers.
+  </p>
+</section>
+<section id="schools" class="px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mb-10">
+    <p class="font-bold uppercase tracking-[3px] text-pink-600">Our Local Focus</p>
+    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Made for Aurangabad.</h2>
+    <p class="mt-3 max-w-2xl leading-7 text-slate-500">Designed for school commutes across the city. Families can enter their own school and pickup details when requesting transport.</p>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+
+    <div class="reveal overflow-hidden rounded-3xl bg-white shadow-sm">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNtUu775G8upnszH2AbFmUsfMYF1yXfRd3WiJFITeeoA&s=10" alt="School campus" class="h-40 w-full object-cover">
+      <div class="p-5">
+        <i class="ri-school-line text-2xl text-sky-600"></i>
+        <h3 class="mt-3 font-bold">School Campuses</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-500">Choose the correct school when making a request.</p>
+      </div>
+    </div>
+
+    <div class="reveal overflow-hidden rounded-3xl bg-white shadow-sm">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfXs0JO5XlThBzRITWeJYEUq-C-rbQWdCtxUXeZ1wK0A&s=10" alt="City streets" class="h-40 w-full object-cover">
+      <div class="p-5">
+        <i class="ri-road-map-line text-2xl text-pink-500"></i>
+        <h3 class="mt-3 font-bold">City Neighborhoods</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-500">Enter your locality and preferred pickup point.</p>
+      </div>
+    </div>
+
+    <div class="reveal overflow-hidden rounded-3xl bg-white shadow-sm">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBavLLPqQID-GkcK0lidGT1nPkzinmBrOlAP0m67Sb5w&s=10" alt="Books and school supplies" class="h-40 w-full object-cover">
+      <div class="p-5">
+        <i class="ri-book-open-line text-2xl text-sky-600"></i>
+        <h3 class="mt-3 font-bold">School Schedules</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-500">Provide the travel times that fit your school day.</p>
+      </div>
+    </div>
+
+    <div class="reveal overflow-hidden rounded-3xl bg-white shadow-sm">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLvF6vA-ktp46HmisBuTWJ1y0YmQk7gUfKwsRBkT8SNw&s=10" alt="Students together" class="h-40 w-full object-cover">
+      <div class="p-5">
+        <i class="ri-team-line text-2xl text-pink-500"></i>
+        <h3 class="mt-3 font-bold">Family Support</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-500">Keep transport arrangements clear for families.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="mt-8 rounded-3xl border border-sky-100 bg-sky-50 p-6 sm:p-8">
+    <h3 class="text-xl font-bold">Don't see your school listed?</h3>
+    <p class="mt-2 text-slate-600">You can enter your school's name in the sign-up form.</p>
+    <a href="#student-access" class="mt-5 inline-block rounded-xl bg-[#202a38] px-5 py-3 font-bold text-white hover:bg-slate-700">
+      Register your details <i class="ri-arrow-right-line ml-2"></i>
+    </a>
+  </div>
+</section>
+<section id="safety" class="bg-[#202a38] px-6 py-16 text-white sm:px-10 lg:px-14">
+
+  <div class="grid items-center gap-10 lg:grid-cols-2">
+
+    <div class="reveal">
+      <p class="font-bold uppercase tracking-[3px] text-sky-300">Safety First</p>
+      <h2 class="mt-3 text-3xl font-black sm:text-4xl">Every journey deserves care.</h2>
+      <p class="mt-5 leading-8 text-slate-300">
+        School transport needs more than a booking form. Families should be able to confirm who operates the van, understand pickup arrangements and know how to contact the school.
+      </p>
+      <a href="#student-access" class="mt-7 inline-block rounded-xl bg-sky-300 px-6 py-3 font-bold text-slate-900 hover:bg-sky-200">
+        Access your account <i class="ri-arrow-right-line ml-2"></i>
+      </a>
+    </div>
+
+    <div class="reveal grid gap-4 sm:grid-cols-2">
+
+      <div class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
+        <i class="ri-shield-check-line text-3xl text-sky-300"></i>
+        <h3 class="mt-4 font-bold">Driver Verification</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-300">Schools should verify driver identity and relevant documents before approving service.</p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
+        <i class="ri-phone-line text-3xl text-pink-300"></i>
+        <h3 class="mt-4 font-bold">Clear Communication</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-300">Keep school and parent contact procedures available for transport questions.</p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
+        <i class="ri-map-pin-user-line text-3xl text-pink-300"></i>
+        <h3 class="mt-4 font-bold">Pickup Details</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-300">Use clear pickup and drop-off instructions agreed with the school.</p>
+      </div>
+
+      <div class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
+        <i class="ri-parent-line text-3xl text-sky-300"></i>
+        <h3 class="mt-4 font-bold">Parent Awareness</h3>
+        <p class="mt-2 text-sm leading-6 text-slate-300">Parents should receive confirmed arrangements before a student travels.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="mt-8 text-xs leading-6 text-slate-400">
+    Safety information is guidance for the design concept. This website does not independently verify drivers or guarantee live location tracking.
+  </p>
+</section>
+<section class="px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal grid overflow-hidden rounded-[30px] bg-pink-100 md:grid-cols-2">
+
+    <div class="p-8 sm:p-12">
+      <span class="rounded-full bg-white px-4 py-2 text-sm font-bold text-pink-700">For School Van Drivers</span>
+
+      <h2 class="mt-6 text-3xl font-black sm:text-4xl">Your trips. Your dashboard.</h2>
+
+      <p class="mt-5 leading-8 text-slate-600">
+        A dedicated sign-in area for drivers to access their account and manage transport requests in a connected version of the platform.
+      </p>
+
+      <ul class="mt-6 space-y-3 text-slate-700">
+        <li><i class="ri-check-line mr-2 text-pink-600"></i> View assigned student requests</li>
+        <li><i class="ri-check-line mr-2 text-pink-600"></i> Review pickup information</li>
+        <li><i class="ri-check-line mr-2 text-pink-600"></i> Access daily journey details</li>
+      </ul>
+
+      <a href="#driver-access" class="mt-8 inline-block rounded-xl bg-[#202a38] px-6 py-4 font-bold text-white hover:bg-slate-700">
+        <i class="ri-steering-2-line mr-2"></i> Driver Login
+      </a>
+    </div>
+
+    <div class="relative min-h-[280px] overflow-hidden bg-sky-200">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4Hsnb6zrQoAETb0MVc1VajozCzlv_y0C9OGzygqv9Q&s=10" alt="Passenger transport vehicle" class="absolute inset-0 h-full w-full object-cover">
+
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
+
+      <div class="absolute bottom-6 left-6 right-6 rounded-2xl bg-white/90 p-5 text-slate-800 backdrop-blur">
+        <i class="ri-calendar-check-line text-2xl text-sky-600"></i>
+        <h3 class="mt-2 font-bold">Daily trip management</h3>
+        <p class="mt-1 text-sm text-slate-600">A concept for organized school transport.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section class="bg-white px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mb-8 text-center">
+    <p class="font-bold uppercase tracking-[3px] text-sky-700">Frequently Asked Questions</p>
+    <h2 class="mt-3 text-3xl font-black sm:text-4xl">Things you might want to know.</h2>
+  </div>
+
+  <div class="mx-auto max-w-3xl space-y-4">
+
+    <details class="reveal rounded-2xl border border-slate-200 p-5">
+      <summary class="cursor-pointer font-bold">Who can use SchoolVan?</summary>
+      <p class="mt-3 leading-7 text-slate-600">The concept is designed for parents, students, schools and school van drivers serving Aurangabad.</p>
+    </details>
+
+    <details class="reveal rounded-2xl border border-slate-200 p-5">
+      <summary class="cursor-pointer font-bold">Can I register if my school is not listed?</summary>
+      <p class="mt-3 leading-7 text-slate-600">Yes. The sign-up form allows you to type your school's name directly.</p>
+    </details>
+
+    <details class="reveal rounded-2xl border border-slate-200 p-5">
+      <summary class="cursor-pointer font-bold">Can parents track the van live?</summary>
+      <p class="mt-3 leading-7 text-slate-600">Live tracking is a planned feature. It requires GPS data, a backend and permission from the transport provider.</p>
+    </details>
+
+    <details class="reveal rounded-2xl border border-slate-200 p-5">
+      <summary class="cursor-pointer font-bold">Are the login forms connected to a database?</summary>
+      <p class="mt-3 leading-7 text-slate-600">No. They are front-end practice forms. Real accounts need secure authentication and a backend.</p>
+    </details>
+
+  </div>
+</section>
+<section id="contact" class="px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal rounded-[30px] bg-sky-100 p-8 sm:p-12">
+    <div class="grid items-center gap-8 md:grid-cols-2">
+
+      <div>
+        <p class="font-bold uppercase tracking-[3px] text-sky-700">Let's Connect</p>
+        <h2 class="mt-3 text-3xl font-black sm:text-4xl">A better school commute starts here.</h2>
+        <p class="mt-4 leading-7 text-slate-600">
+          Looking for school transport in Aurangabad? Start by sharing your school and pickup details with your school transport coordinator.
+        </p>
+      </div>
+
+      <div class="rounded-2xl bg-white p-6 shadow-sm">
+
+        <div class="flex items-center gap-4 border-b border-slate-100 pb-5">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-pink-100 text-2xl text-pink-600"><i class="ri-map-pin-line"></i></span>
+          <div>
+            <h3 class="font-bold">Service Area</h3>
+            <p class="text-sm text-slate-500">Aurangabad, Maharashtra</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 border-b border-slate-100 py-5">
+          <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-2xl text-sky-700"><i class="ri-school-line"></i></span>
+          <div>
+            <h3 class="font-bold">School Transport</h3>
+            <p class="text-sm text-slate-500">Contact your school for confirmation</p>
+          </div>
+        </div>
+
+        <a href="#student-access" class="mt-5 block w-full rounded-xl bg-[#202a38] px-5 py-4 text-center font-bold text-white hover:bg-slate-700">
+          Get Started <i class="ri-arrow-right-line ml-2"></i>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+<section id="student-access" class="scroll-mt-24 bg-pink-50 px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mx-auto max-w-2xl rounded-3xl border border-pink-100 bg-white p-7 shadow-sm sm:p-10">
+
+    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600">
+      <i class="ri-user-add-line"></i>
+    </div>
+
+    <p class="mt-5 font-bold uppercase tracking-[3px] text-pink-600">Student & Parent Access</p>
+    <h2 class="mt-2 text-3xl font-black">Create your account.</h2>
+    <p class="mt-3 leading-7 text-slate-500">Complete this sample form to practise designing a school transport registration page.</p>
+
+    <form action="#" class="mt-7 grid gap-5 sm:grid-cols-2">
+
+      <div>
+        <label for="fullName" class="mb-2 block text-sm font-semibold">Full Name</label>
+        <input id="fullName" type="text" required placeholder="Enter full name" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+      </div>
+
+      <div>
+        <label for="schoolName" class="mb-2 block text-sm font-semibold">School Name</label>
+        <input id="schoolName" type="text" required placeholder="Enter school name" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+      </div>
+
+      <div>
+        <label for="pickupArea" class="mb-2 block text-sm font-semibold">Pickup Area</label>
+        <input id="pickupArea" type="text" required placeholder="Area in Aurangabad" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+      </div>
+
+      <div>
+        <label for="travelTime" class="mb-2 block text-sm font-semibold">Travel Preference</label>
+        <select id="travelTime" required class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+          <option value="">Select preference</option>
+          <option>Morning pickup</option>
+          <option>Afternoon drop-off</option>
+          <option>Both ways</option>
+        </select>
+      </div>
+
+      <div class="sm:col-span-2">
+        <label for="signupPhone" class="mb-2 block text-sm font-semibold">Parent / Guardian Contact</label>
+        <input id="signupPhone" type="tel" required placeholder="Enter contact number" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+      </div>
+
+      <div class="sm:col-span-2">
+        <label for="signupPassword" class="mb-2 block text-sm font-semibold">Create Password</label>
+        <input id="signupPassword" type="password" required minlength="6" placeholder="At least 6 characters" class="w-full rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-pink-400">
+      </div>
+
+      <button type="submit" class="sm:col-span-2 rounded-xl bg-pink-300 px-5 py-4 font-bold text-slate-900 hover:bg-pink-200">
+        Create Account <i class="ri-arrow-right-line ml-2"></i>
+      </button>
+
+    </form>
+
+    <p class="mt-5 text-xs leading-6 text-slate-400">
+      Practice form only. It does not create an account or store booking details. Do not enter real personal information.
+    </p>
+  </div>
+</section>
+<section id="driver-access" class="scroll-mt-24 px-6 py-16 sm:px-10 lg:px-14">
+
+  <div class="reveal mx-auto max-w-xl rounded-3xl bg-[#202a38] p-7 text-white shadow-xl sm:p-10">
+
+    <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-300 text-3xl text-slate-900">
+      <i class="ri-steering-2-line"></i>
+    </div>
+
+    <p class="mt-5 font-bold uppercase tracking-[3px] text-sky-300">Authorized Drivers</p>
+    <h2 class="mt-2 text-3xl font-black">Driver sign in.</h2>
+    <p class="mt-3 leading-7 text-slate-300">A separate login form for school van drivers.</p>
+
+    <form action="#" class="mt-7 space-y-5">
+
+      <div>
+        <label for="driverIdMain" class="mb-2 block text-sm font-semibold">Driver ID</label>
+        <input id="driverIdMain" type="text" required placeholder="Enter driver ID" class="w-full rounded-xl border border-slate-600 bg-slate-700 px-4 py-3 text-white outline-none placeholder:text-slate-400 focus:border-sky-300">
+      </div>
+
+      <div>
+        <label for="driverPasswordMain" class="mb-2 block text-sm font-semibold">Password</label>
+        <input id="driverPasswordMain" type="password" required placeholder="Enter password" class="w-full rounded-xl border border-slate-600 bg-slate-700 px-4 py-3 text-white outline-none placeholder:text-slate-400 focus:border-sky-300">
+      </div>
+
+      <button type="submit" class="w-full rounded-xl bg-sky-300 px-5 py-4 font-bold text-slate-900 hover:bg-sky-200">
+        Sign In <i class="ri-arrow-right-line ml-2"></i>
+      </button>
+
+    </form>
+
+    <p class="mt-5 text-xs leading-6 text-slate-400">
+      Demo form only. Authentication and driver verification are not connected.
+    </p>
+  </div>
+</section>
+<footer class="bg-[#202a38] px-6 py-10 text-white sm:px-10 lg:px-14">
+
+  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+
+    <div>
+      <h2 class="text-2xl font-extrabold">School<span class="text-sky-300">Van</span></h2>
+      <p class="mt-3 max-w-xs text-sm leading-7 text-slate-400">
+        A school van booking website concept designed for Aurangabad, Maharashtra.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-bold">Explore</h3>
+      <div class="mt-4 space-y-3 text-sm text-slate-400">
+        <a class="block hover:text-sky-300" href="#services">Services</a>
+        <a class="block hover:text-sky-300" href="#how">How It Works</a>
+        <a class="block hover:text-sky-300" href="#schools">Schools</a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-bold">Accounts</h3>
+      <div class="mt-4 space-y-3 text-sm text-slate-400">
+        <a class="block hover:text-sky-300" href="#student-access">Student / Parent Login</a>
+        <a class="block hover:text-sky-300" href="#student-access">Create Account</a>
+        <a class="block hover:text-sky-300" href="#driver-access">Driver Login</a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-bold">Our Values</h3>
+      <p class="mt-4 text-sm leading-7 text-slate-400">
+        Local service<br>
+        Clear communication<br>
+        Safety-conscious travel
+      </p>
+    </div>
+
+  </div>
+
+  <div class="mt-10 border-t border-slate-700 pt-6 text-center text-sm text-slate-400">
+    © 2026 SchoolVan Aurangabad. Practice website concept.
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>
