@@ -395,45 +395,73 @@
       </details>
     </div>
   </aside>
-  <header class="fixed left-0 right-0 top-0 z-40 flex items-center justify-between bg-[#202a38] px-5 py-4 lg:hidden">
-
-    <a href="#home" class="text-xl font-extrabold text-white">
-      <i class="ri-bus-2-fill mr-2 text-sky-300" aria-hidden="true"></i>
-      School<span class="text-sky-300">Van</span>
+ <header class="relative z-50 flex items-center justify-between bg-white px-5 py-4 shadow-sm md:hidden">
+    <a href="#" class="flex items-center gap-2">
+        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-xl text-sky-600">
+            <i class="ri-bus-line"></i>
+        </span>
+        <span class="text-lg font-bold text-[#202a38]">
+            SchoolVan
+        </span>
     </a>
+    <div class="relative">
+        <details class="group">
+            <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-sky-50 text-2xl text-[#202a38] transition hover:bg-sky-100">
+                <i class="ri-menu-3-line group-open:hidden"></i>
+                <i class="ri-close-line hidden group-open:block"></i>
+            </summary>
+            <div class="absolute right-0 top-14 z-[100] w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
+                <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wider text-slate-400">
+                    Navigation
+                </p>
 
-    <input
-      type="checkbox"
-      id="mobile-toggle"
-      class="peer hidden"
-      aria-label="Toggle mobile navigation"
-    >
+                <a href="index.html"
+                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+                    <i class="ri-home-5-line text-lg"></i>
+                    Home
+                </a>
 
-    <label for="mobile-toggle" class="cursor-pointer text-3xl text-white">
-      <i class="ri-menu-3-line menu-open" aria-hidden="true"></i>
-      <i class="ri-close-line menu-close" aria-hidden="true"></i>
-    </label>
+                <a href="book-van.html"
+                   class="flex items-center gap-3 rounded-xl bg-sky-50 px-3 py-3 text-sm font-semibold text-sky-600">
+                    <i class="ri-calendar-check-line text-lg"></i>
+                    Book a Van
+                </a>
 
-    <nav aria-label="Mobile navigation" class="mobile-menu absolute left-0 top-full w-full bg-[#202a38] px-5 pb-6 pt-3 shadow-xl">
-      <a href="#home" class="block py-3 text-white">Home</a>
-      <a href="#services" class="block py-3 text-white">Our Services</a>
-      <a href="#how" class="block py-3 text-white">How It Works</a>
-      <a href="#schools" class="block py-3 text-white">Schools</a>
-      <a href="#safety" class="block py-3 text-white">Safety</a>
-      <a href="#contact" class="block py-3 text-white">Contact</a>
+                <a href="schools.html"
+                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+                    <i class="ri-school-line text-lg"></i>
+                    Schools Directory
+                </a>
 
-      <div class="mt-4 grid grid-cols-2 gap-3">
-        <a href="#student-access" class="rounded-xl bg-sky-300 p-3 text-center font-bold text-slate-900">
-          Student Login
-        </a>
+                <a href="track-van.html"
+                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+                    <i class="ri-map-pin-line text-lg"></i>
+                    Track a Van
+                </a>
 
-        <a href="#driver-access" class="rounded-xl bg-pink-200 p-3 text-center font-bold text-slate-900">
-          Driver Login
-        </a>
-      </div>
-    </nav>
-  </header>
+                <div class="my-2 border-t border-slate-100"></div>
 
+                <a href="parent-login.html"
+                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+                    <i class="ri-user-line text-lg"></i>
+                    Parent Login
+                </a>
+
+                <a href="driver-login.html"
+                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+                    <i class="ri-steering-2-line text-lg"></i>
+                    Driver Login
+                </a>
+
+                <a href="contact.html"
+                   class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[#202a38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-600">
+                    <i class="ri-customer-service-2-line"></i>
+                    Get Help
+                </a>
+            </div>
+        </details>
+    </div>
+</header>
   <main class="pt-20 lg:ml-64 lg:pt-0">
     <section id="home" class="relative overflow-hidden bg-[#202a38] px-6 py-16 text-white sm:px-10 lg:min-h-[620px] lg:px-14 lg:py-20">
 
