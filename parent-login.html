@@ -96,8 +96,8 @@
           Parent Account <i class="ri-arrow-down-s-line"></i>
         </summary>
         <div class="auth-popover-panel">
-          <a href="#login" class="auth-tab bg-sky-50 text-sky-700">Login</a>
-          <a href="#register" class="auth-tab bg-pink-50 text-pink-700">Register</a>
+          <a href="parent-login.html" class="auth-tab bg-sky-50 text-sky-700">Login</a>
+          <a href="parant-registration.html" class="auth-tab bg-pink-50 text-pink-700">Register</a>
         </div>
       </details>
     </nav>
@@ -163,8 +163,8 @@
       </section>
       <section class="auth-card bg-white border border-slate-100 rounded-3xl p-5 sm:p-8">
         <div class="flex bg-slate-100 p-1 rounded-xl gap-1 mb-7">
-          <a href="#login" class="auth-tab flex-1 bg-white text-slate-800 shadow-sm">Login</a>
-          <a href="#register" class="auth-tab flex-1 text-slate-500">Register</a>
+          <a href="parent-login.html" class="auth-tab flex-1 bg-white text-slate-800 shadow-sm">Login</a>
+          <a href="parant-registration.html" class="auth-tab flex-1 text-slate-500">Register</a>
         </div>
         <div id="login">
           <h2 class="text-2xl font-extrabold">Welcome back!</h2>
@@ -196,55 +196,10 @@
 
           <p class="text-center text-sm text-slate-500 mt-6">
             New to SchoolVan?
-            <a href="#register" class="text-sky-600 font-bold">Create an account</a>
+            <a href="parant-registration.html" class="text-sky-600 font-bold">Create an account</a>
           </p>
         </div>
-        <div id="register" class="mt-12 pt-8 border-t border-slate-100">
-          <h2 class="text-2xl font-extrabold">Create parent account</h2>
-          <p class="text-sm text-slate-500 mt-2">Enter your details to get started.</p>
-
-          <form action="#" method="get" class="mt-7 space-y-4">
-            <div>
-              <label for="parent-name" class="block text-sm font-semibold mb-2">Parent / Guardian Name</label>
-              <input id="parent-name" type="text" name="parent_name" placeholder="Enter full name" autocomplete="name" required class="p-5">
-            </div>
-
-            <div>
-              <label for="register-email" class="block text-sm font-semibold mb-2">Email Address</label>
-              <input id="register-email" type="email" name="email" placeholder="parent@example.com" autocomplete="email" required class="p-5">
-            </div>
-
-            <div>
-              <label for="phone" class="block text-sm font-semibold mb-2">Mobile Number</label>
-              <input id="phone" type="tel" name="phone" placeholder="Enter mobile number" autocomplete="tel" inputmode="tel" required class="p-5">
-            </div>
-
-            <div>
-              <label for="school" class="block text-sm font-semibold mb-2">Child's School</label>
-              <select id="school" name="school" required>
-                <option value="">Select a school</option>
-                <option>School A - Aurangabad</option>
-                <option>School B - Aurangabad</option>
-                <option>Other school</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="register-password" class="block text-sm font-semibold mb-2">Create Password</label>
-              <input id="register-password" type="password" name="password" placeholder="Create a password" autocomplete="new-password" minlength="8" required class="p-5">
-              <p class="text-xs text-slate-400 mt-2">Use at least 8 characters.</p>
-            </div>
-
-            <label class="flex items-start gap-3 text-sm text-slate-500 leading-5">
-              <input type="checkbox" name="terms" class="!w-4 !h-4 mt-1 shrink-0" required class="p-5">
-              <span>I agree to the <a href="terms.html" class="text-sky-600 font-semibold">Terms</a> and <a href="privacy.html" class="text-sky-600 font-semibold">Privacy Policy</a>.</span>
-            </label>
-
-            <button type="submit" class="w-full bg-pink-400 hover:bg-pink-500 text-white font-bold py-3.5 rounded-xl">
-              Create Parent Account <i class="ri-user-add-line"></i>
-            </button>
-          </form>
-        </div>
+        
       </section>
     </div>
   </main>
