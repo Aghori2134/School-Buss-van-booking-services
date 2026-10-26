@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SchoolVan parent dashboard to review school transport bookings, child details, journey information and account settings in Aurangabad.">
+  <meta name="theme-color" content="#202a38">
+  <title>Parent Dashboard | SchoolVan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f5f8fc;
+      color: #202a38;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .sidebar-link:hover,
+    .sidebar-link.active {
+      background: #e8f7ff;
+      color: #0284c7;
+    }
+
+    .dashboard-card {
+      background: white;
+      border: 1px solid #e9eef5;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px #202a3805;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .focus-ring:focus-visible {
+      outline: 3px solid #38bdf8;
+      outline-offset: 3px;
+    }
+
+    .mobile-nav {
+      display: none;
+    }
+
+    .mobile-nav[open] .mobile-nav-panel {
+      display: grid;
+    }
+
+    .mobile-nav summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .mobile-nav summary::-webkit-details-marker {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="bg-white border-b border-slate-100 sticky top-0 z-20">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+
+      <a href="index.html" class="flex items-center gap-3 focus-ring rounded-xl">
+        <span class="w-11 h-11 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl">
+          <i class="ri-bus-2-fill" aria-hidden="true"></i>
+        </span>
+        <span>
+          <span class="block text-xl font-extrabold">SchoolVan</span>
+          <span class="block text-xs text-slate-500">Parent Portal</span>
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-3">
+        <span class="text-sm text-slate-500">
+          <i class="ri-shield-check-line text-sky-600" aria-hidden="true"></i>
+          Parent Dashboard
+        </span>
+        <span class="w-10 h-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-bold">
+          P
+        </span>
+      </div>
+
+      <details class="mobile-nav md:hidden relative">
+        <summary aria-label="Open navigation menu" class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center text-xl">
+          <i class="ri-menu-line" aria-hidden="true"></i>
+        </summary>
+        <div class="mobile-nav-panel hidden absolute right-0 top-14 w-56 bg-white border border-slate-100 shadow-xl rounded-2xl p-3 gap-1">
+          <a href="#overview" class="sidebar-link">Overview</a>
+          <a href="#child" class="sidebar-link">Child Details</a>
+          <a href="#bookings" class="sidebar-link">My Bookings</a>
+          <a href="#journey" class="sidebar-link">Journey Details</a>
+          <a href="#account" class="sidebar-link">Account Security</a>
+          <a href="help.html" class="sidebar-link">Help Centre</a>
+          <a href="parent-login.html" class="sidebar-link text-rose-600">Sign Out</a>
+        </div>
+      </details>
+    </div>
+  </header>
+
+  <div class="max-w-[1600px] mx-auto flex">
+    <aside class="hidden lg:flex w-64 shrink-0 bg-white border-r border-slate-100 min-h-screen flex-col p-5">
+      <p class="text-xs font-bold uppercase tracking-widest text-slate-400 px-3 mb-4">
+        Parent Menu
+      </p>
+
+      <nav aria-label="Parent dashboard navigation" class="space-y-2">
+        <a href="#overview" class="sidebar-link active">
+          <i class="ri-dashboard-line text-xl" aria-hidden="true"></i>
+          Overview
+        </a>
+        <a href="#child" class="sidebar-link">
+          <i class="ri-user-heart-line text-xl" aria-hidden="true"></i>
+          Child Details
+        </a>
+        <a href="#bookings" class="sidebar-link">
+          <i class="ri-calendar-check-line text-xl" aria-hidden="true"></i>
+          My Bookings
+        </a>
+        <a href="#journey" class="sidebar-link">
+          <i class="ri-route-line text-xl" aria-hidden="true"></i>
+          Journey Details
+        </a>
+        <a href="#account" class="sidebar-link">
+          <i class="ri-shield-keyhole-line text-xl" aria-hidden="true"></i>
+          Account Security
+        </a>
+        <a href="help.html" class="sidebar-link">
+          <i class="ri-customer-service-2-line text-xl" aria-hidden="true"></i>
+          Help Centre
+        </a>
+      </nav>
+
+      <div class="mt-auto pt-8">
+        <div class="rounded-2xl bg-sky-50 border border-sky-100 p-4">
+          <div class="w-10 h-10 rounded-xl bg-white text-sky-600 flex items-center justify-center text-xl">
+            <i class="ri-question-line" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold mt-3">Need assistance?</h3>
+          <p class="text-xs leading-5 text-slate-500 mt-1">
+            Contact the SchoolVan support team for booking questions.
+          </p>
+          <a href="contact.html" class="inline-block mt-3 text-sm text-sky-700 font-bold">
+            Get Support <i class="ri-arrow-right-line" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <a href="parent-login.html" class="sidebar-link mt-5 text-rose-600">
+          <i class="ri-logout-box-r-line text-xl" aria-hidden="true"></i>
+          Sign Out
+        </a>
+      </div>
+    </aside>
+    <main class="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-8" id="overview">
+      <section class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+        <div>
+          <p class="text-sm text-slate-500">Parent Portal / Overview</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
+            Welcome back, Parent!
+          </h1>
+          <p class="text-slate-500 mt-2">
+            Manage school transport information from one place.
+          </p>
+        </div>
+
+        <a href="book-van.html" class="inline-flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-3 focus-ring">
+          <i class="ri-add-line text-xl" aria-hidden="true"></i>
+          Book a Van
+        </a>
+      </section>
+      <div class="mt-7 rounded-2xl border border-amber-200 bg-amber-50 p-4 flex gap-3">
+        <i class="ri-information-line text-amber-600 text-xl" aria-hidden="true"></i>
+        <p class="text-sm leading-6 text-amber-900">
+          <strong>Demo dashboard:</strong> All student, booking, and journey information below is sample content. No live student records or vehicle tracking are connected.
+        </p>
+      </div>
+      <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-7" aria-label="Dashboard summary">
+
+        <article class="dashboard-card p-5">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-500 font-medium">Child Profiles</span>
+            <span class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl">
+              <i class="ri-user-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-3xl font-extrabold mt-4">01</p>
+          <p class="text-xs text-slate-400 mt-2">Sample profile count</p>
+        </article>
+
+        <article class="dashboard-card p-5">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-500 font-medium">Active Bookings</span>
+            <span class="w-11 h-11 rounded-xl bg-pink-100 text-pink-500 flex items-center justify-center text-xl">
+              <i class="ri-calendar-check-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-3xl font-extrabold mt-4">01</p>
+          <p class="text-xs text-slate-400 mt-2">Sample booking count</p>
+        </article>
+
+        <article class="dashboard-card p-5">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-500 font-medium">Assigned Vehicle</span>
+            <span class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-500 flex items-center justify-center text-xl">
+              <i class="ri-bus-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Not linked</p>
+          <p class="text-xs text-slate-400 mt-2">Sample assignment status</p>
+        </article>
+
+        <article class="dashboard-card p-5">
+          <div class="flex items-center justify-between">
+            <span class="text-sm text-slate-500 font-medium">Account Status</span>
+            <span class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+              <i class="ri-shield-check-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Demo</p>
+          <p class="text-xs text-slate-400 mt-2">Authentication not connected</p>
+        </article>
+
+      </section>
+      <section class="grid xl:grid-cols-5 gap-6 mt-7">
+        <article id="child" class="dashboard-card p-5 sm:p-6 xl:col-span-2">
+          <div class="flex items-center justify-between gap-3">
+            <h2 class="text-lg font-extrabold">Child Profile</h2>
+            <span class="text-xs text-slate-400">Sample data</span>
+          </div>
+
+          <div class="flex items-center gap-4 mt-6">
+            <div class="w-16 h-16 rounded-2xl bg-pink-100 text-pink-500 flex items-center justify-center text-3xl">
+              <i class="ri-graduation-cap-line" aria-hidden="true"></i>
+            </div>
+            <div>
+              <h3 class="font-bold text-lg">Demo Student</h3>
+              <p class="text-sm text-slate-500">Student profile example</p>
+              <span class="status-pill bg-sky-50 text-sky-700 mt-2">
+                Demo Profile
+              </span>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-100 mt-6 pt-5 space-y-4">
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">School</span>
+              <span class="font-semibold text-right">Sample School</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Class</span>
+              <span class="font-semibold">Not provided</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Transport</span>
+              <span class="font-semibold">School Van</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Pickup point</span>
+              <span class="font-semibold text-right">Not assigned</span>
+            </div>
+          </div>
+
+          <a href="contact.html" class="mt-6 block text-center border border-slate-200 hover:bg-slate-50 rounded-xl py-3 text-sm font-bold">
+            Request Profile Update
+          </a>
+        </article>
+        <article id="bookings" class="dashboard-card p-5 sm:p-6 xl:col-span-3">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <h2 class="text-lg font-extrabold">Current Booking</h2>
+              <p class="text-sm text-slate-500 mt-1">Your sample transport booking</p>
+            </div>
+            <span class="status-pill bg-amber-50 text-amber-700">
+              <i class="ri-time-line" aria-hidden="true"></i>
+              Demo
+            </span>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-sky-50 p-5 border border-sky-100">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs uppercase tracking-wider text-sky-700 font-bold">Booking Reference</p>
+                <h3 class="text-xl font-extrabold mt-2">DEMO-0001</h3>
+                <p class="text-sm text-slate-500 mt-1">Example reference only</p>
+              </div>
+              <span class="w-12 h-12 rounded-xl bg-white text-sky-600 flex items-center justify-center text-2xl">
+                <i class="ri-bus-2-line" aria-hidden="true"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5 mt-6">
+            <div>
+              <p class="text-sm text-slate-500">Pickup schedule</p>
+              <p class="font-bold mt-2">Not confirmed</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">Drop-off schedule</p>
+              <p class="font-bold mt-2">Not confirmed</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">Driver assignment</p>
+              <p class="font-bold mt-2">Not assigned</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">Vehicle assignment</p>
+              <p class="font-bold mt-2">Not assigned</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 mt-7">
+            <a href="book-van.html" class="flex-1 text-center bg-sky-500 hover:bg-sky-600 text-white rounded-xl py-3 px-4 font-bold text-sm">
+              Explore Van Booking
+            </a>
+            <a href="contact.html" class="flex-1 text-center border border-slate-200 hover:bg-slate-50 rounded-xl py-3 px-4 font-bold text-sm">
+              Ask About Booking
+            </a>
+          </div>
+        </article>
+      </section>
+      <section id="journey" class="dashboard-card p-5 sm:p-6 mt-7">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 class="text-lg font-extrabold">Journey Information</h2>
+            <p class="text-sm text-slate-500 mt-1">
+              Review transport details once a booking has been confirmed.
+            </p>
+          </div>
+          <span class="status-pill bg-slate-100 text-slate-600">No live connection</span>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-4 mt-6">
+
+          <div class="rounded-2xl border border-slate-100 p-5">
+            <span class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl">
+              <i class="ri-map-pin-line" aria-hidden="true"></i>
+            </span>
+            <h3 class="font-bold mt-4">Pickup Location</h3>
+            <p class="text-sm text-slate-500 mt-2 leading-6">
+              Your approved pickup point will appear here after confirmation.
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-100 p-5">
+            <span class="w-11 h-11 rounded-xl bg-pink-100 text-pink-500 flex items-center justify-center text-xl">
+              <i class="ri-route-line" aria-hidden="true"></i>
+            </span>
+            <h3 class="font-bold mt-4">Route Information</h3>
+            <p class="text-sm text-slate-500 mt-2 leading-6">
+              Route details will be provided after the transport operator assigns a vehicle.
+            </p>
+          </div>
+
+          <div class="rounded-2xl border border-slate-100 p-5">
+            <span class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-500 flex items-center justify-center text-xl">
+              <i class="ri-bus-line" aria-hidden="true"></i>
+            </span>
+            <h3 class="font-bold mt-4">Driver & Vehicle</h3>
+            <p class="text-sm text-slate-500 mt-2 leading-6">
+              Verified driver and vehicle information will appear when available.
+            </p>
+          </div>
+
+        </div>
+      </section>
+      <section id="account" class="grid lg:grid-cols-2 gap-6 mt-7">
+
+        <article class="dashboard-card p-5 sm:p-6">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-2xl">
+              <i class="ri-shield-keyhole-line" aria-hidden="true"></i>
+            </span>
+            <div>
+              <h2 class="text-lg font-extrabold">Account Security</h2>
+              <p class="text-sm text-slate-500">Protect your parent account</p>
+            </div>
+          </div>
+
+          <div class="mt-6 space-y-4">
+            <div class="flex gap-3 items-start">
+              <i class="ri-check-line text-emerald-600 text-xl" aria-hidden="true"></i>
+              <p class="text-sm text-slate-600 leading-6">
+                Use a unique password and never share it with others.
+              </p>
+            </div>
+            <div class="flex gap-3 items-start">
+              <i class="ri-check-line text-emerald-600 text-xl" aria-hidden="true"></i>
+              <p class="text-sm text-slate-600 leading-6">
+                Access student information only through your authorised account.
+              </p>
+            </div>
+            <div class="flex gap-3 items-start">
+              <i class="ri-check-line text-emerald-600 text-xl" aria-hidden="true"></i>
+              <p class="text-sm text-slate-600 leading-6">
+                Sign out after using a shared or public device.
+              </p>
+            </div>
+          </div>
+
+          <a href="parent-login.html" class="mt-6 inline-flex items-center gap-2 text-sm text-sky-700 font-bold">
+            Go to Login Page <i class="ri-arrow-right-line" aria-hidden="true"></i>
+          </a>
+        </article>
+
+        <article class="dashboard-card p-5 sm:p-6">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-500 flex items-center justify-center text-2xl">
+              <i class="ri-customer-service-2-line" aria-hidden="true"></i>
+            </span>
+            <div>
+              <h2 class="text-lg font-extrabold">Help & Support</h2>
+              <p class="text-sm text-slate-500">Need help with your account?</p>
+            </div>
+          </div>
+
+          <p class="text-sm text-slate-500 leading-6 mt-5">
+            Contact the SchoolVan support team if you notice incorrect booking information or need help with your parent account.
+          </p>
+
+          <div class="space-y-3 mt-6">
+            <a href="contact.html" class="flex items-center justify-between gap-3 rounded-xl border border-slate-100 p-4 hover:bg-slate-50">
+              <span class="flex items-center gap-3 text-sm font-semibold">
+                <i class="ri-mail-line text-sky-600 text-xl" aria-hidden="true"></i>
+                Contact Support
+              </span>
+              <i class="ri-arrow-right-s-line text-slate-400" aria-hidden="true"></i>
+            </a>
+            <a href="help.html" class="flex items-center justify-between gap-3 rounded-xl border border-slate-100 p-4 hover:bg-slate-50">
+              <span class="flex items-center gap-3 text-sm font-semibold">
+                <i class="ri-question-answer-line text-pink-500 text-xl" aria-hidden="true"></i>
+                Frequently Asked Questions
+              </span>
+              <i class="ri-arrow-right-s-line text-slate-400" aria-hidden="true"></i>
+            </a>
+          </div>
+        </article>
+      </section>
+      <section class="mt-7 rounded-2xl bg-slate-900 text-white p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+          <span class="w-14 h-14 shrink-0 rounded-2xl bg-white/10 flex items-center justify-center text-3xl text-sky-300">
+            <i class="ri-lock-2-line" aria-hidden="true"></i>
+          </span>
+          <div class="flex-1">
+            <h2 class="text-xl font-extrabold">Your family's privacy matters</h2>
+            <p class="text-sm text-slate-300 leading-6 mt-2 max-w-2xl">
+              Student details and transport information should only be accessible to authorised users. Review the privacy policy to understand how account information should be handled.
+            </p>
+          </div>
+          <a href="privacy.html" class="shrink-0 text-center bg-white text-slate-900 rounded-xl px-5 py-3 font-bold text-sm hover:bg-sky-100">
+            Privacy Policy
+          </a>
+        </div>
+      </section>
+      <footer class="py-8 mt-4 flex flex-col sm:flex-row justify-between gap-4 text-sm text-slate-500">
+        <p>© 2026 SchoolVan Aurangabad All rights reserved</p>
+        <div class="flex flex-wrap gap-5">
+          <a href="privacy.html" class="hover:text-sky-600">Privacy</a>
+          <a href="terms.html" class="hover:text-sky-600">Terms</a>
+          <a href="contact.html" class="hover:text-sky-600">Contact</a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>
