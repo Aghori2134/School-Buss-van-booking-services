@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#202a38">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Private SchoolVan driver dashboard for authorised drivers to review assigned routes, vehicle details, daily duties and transport safety information.">
+  <title>Driver Dashboard | SchoolVan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: #f5f8fc;
+      color: #202a38;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: #e8f7ff;
+      color: #0284c7;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e7edf4;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px #202a3805;
+    }
+
+    .focus-ring:focus-visible {
+      outline: 3px solid #0284c7;
+      outline-offset: 3px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #0284c7;
+      outline-offset: 2px;
+    }
+
+    .mobile-menu {
+      position: relative;
+    }
+
+    .mobile-menu summary {
+      list-style: none;
+      cursor: pointer;
+    }
+
+    .mobile-menu summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .mobile-menu-panel {
+      display: none;
+    }
+
+    .mobile-menu[open] .mobile-menu-panel {
+      display: grid;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="#main-content"
+     class="focus-ring fixed top-2 left-2 z-50 -translate-y-20 focus:translate-y-0 bg-white text-slate-900 p-3 rounded-lg">
+    Skip to main content
+  </a>
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+
+      <a href="index.html" class="focus-ring rounded-xl flex items-center gap-3">
+        <span class="w-11 h-11 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl">
+          <i class="ri-bus-2-fill" aria-hidden="true"></i>
+        </span>
+        <span>
+          <span class="block text-xl font-extrabold">SchoolVan</span>
+          <span class="block text-xs text-slate-500">Driver Portal</span>
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-3">
+        <span class="text-sm text-slate-500">
+          <i class="ri-shield-check-line text-sky-600" aria-hidden="true"></i>
+          Driver workspace
+        </span>
+        <span class="w-10 h-10 rounded-full bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+          D
+        </span>
+      </div>
+
+      <details class="mobile-menu md:hidden">
+        <summary aria-label="Open navigation menu"
+          class="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center text-2xl">
+          <i class="ri-menu-line" aria-hidden="true"></i>
+        </summary>
+
+        <nav aria-label="Mobile navigation"
+          class="mobile-menu-panel absolute right-0 top-14 w-60 bg-white border border-slate-200 shadow-xl rounded-2xl p-3 gap-1">
+          <a href="#overview" class="nav-link">Overview</a>
+          <a href="#route" class="nav-link">Assigned Route</a>
+          <a href="#vehicle" class="nav-link">Vehicle Details</a>
+          <a href="#safety" class="nav-link">Safety Checklist</a>
+          <a href="#report" class="nav-link">Report an Issue</a>
+          <a href="help.html" class="nav-link">Help Centre</a>
+          <a href="driver-login.html" class="nav-link text-rose-600">Sign Out</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <div class="max-w-[1600px] mx-auto flex">
+    <aside class="hidden lg:flex w-64 shrink-0 bg-white border-r border-slate-100 min-h-screen flex-col p-5">
+
+      <p class="text-xs font-bold uppercase tracking-widest text-slate-400 px-3 mb-4">
+        Driver Menu
+      </p>
+
+      <nav aria-label="Driver dashboard navigation" class="space-y-2">
+        <a href="#overview" class="nav-link">
+          <i class="ri-dashboard-line text-xl" aria-hidden="true"></i>
+          Overview
+        </a>
+        <a href="#route" class="nav-link">
+          <i class="ri-route-line text-xl" aria-hidden="true"></i>
+          Assigned Route
+        </a>
+        <a href="#vehicle" class="nav-link">
+          <i class="ri-bus-line text-xl" aria-hidden="true"></i>
+          Vehicle Details
+        </a>
+        <a href="#safety" class="nav-link">
+          <i class="ri-shield-check-line text-xl" aria-hidden="true"></i>
+          Safety Checklist
+        </a>
+        <a href="#report" class="nav-link">
+          <i class="ri-file-warning-line text-xl" aria-hidden="true"></i>
+          Report an Issue
+        </a>
+        <a href="help.html" class="nav-link">
+          <i class="ri-customer-service-2-line text-xl" aria-hidden="true"></i>
+          Help Centre
+        </a>
+      </nav>
+
+      <div class="mt-auto pt-8">
+        <div class="bg-sky-50 border border-sky-100 rounded-2xl p-4">
+          <i class="ri-information-line text-sky-600 text-2xl" aria-hidden="true"></i>
+          <h2 class="font-bold mt-2">Driver Support</h2>
+          <p class="text-xs text-slate-500 leading-5 mt-2">
+            Contact your transport administrator for route or vehicle changes.
+          </p>
+          <a href="contact.html" class="inline-block mt-3 text-sm text-sky-700 font-bold">
+            Get Help <i class="ri-arrow-right-line" aria-hidden="true"></i>
+          </a>
+        </div>
+
+        <a href="driver-login.html" class="nav-link text-rose-600 mt-5">
+          <i class="ri-logout-box-r-line text-xl" aria-hidden="true"></i>
+          Sign Out
+        </a>
+      </div>
+    </aside>
+    <main id="main-content" class="flex-1 min-w-0 px-4 sm:px-6 lg:px-8 py-8">
+      <section id="overview" class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+        <div>
+          <p class="text-sm text-slate-500">Driver Portal / Overview</p>
+          <h1 class="text-3xl sm:text-4xl font-extrabold mt-2">
+            Driver Dashboard
+          </h1>
+          <p class="text-slate-500 mt-2">
+            Review your assigned transport duties and vehicle information.
+          </p>
+        </div>
+
+        <a href="#safety"
+          class="focus-ring inline-flex justify-center items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl px-5 py-3">
+          <i class="ri-shield-check-line text-xl" aria-hidden="true"></i>
+          Safety Checklist
+        </a>
+      </section>
+      <div class="mt-7 rounded-2xl border border-amber-200 bg-amber-50 p-4 flex items-start gap-3">
+        <i class="ri-information-line text-amber-700 text-xl" aria-hidden="true"></i>
+        <p class="text-sm leading-6 text-amber-950">
+          <strong>Demonstration only:</strong> The details on this page are examples, not actual assignments. Driver identity, vehicle records and route permissions must be verified by the backend.
+        </p>
+      </div>
+      <section class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-7" aria-label="Driver summary">
+
+        <article class="panel p-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm text-slate-500 font-medium">Today's Route</p>
+            <span class="w-11 h-11 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-xl">
+              <i class="ri-route-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Unassigned</p>
+          <p class="text-xs text-slate-500 mt-2">Awaiting administrator assignment</p>
+        </article>
+
+        <article class="panel p-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm text-slate-500 font-medium">Vehicle</p>
+            <span class="w-11 h-11 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center text-xl">
+              <i class="ri-bus-2-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Not assigned</p>
+          <p class="text-xs text-slate-500 mt-2">No vehicle linked in this demo</p>
+        </article>
+
+        <article class="panel p-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm text-slate-500 font-medium">Duty Status</p>
+            <span class="w-11 h-11 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-xl">
+              <i class="ri-calendar-check-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Not started</p>
+          <p class="text-xs text-slate-500 mt-2">Sample status only</p>
+        </article>
+
+        <article class="panel p-5">
+          <div class="flex items-center justify-between gap-3">
+            <p class="text-sm text-slate-500 font-medium">Safety Record</p>
+            <span class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl">
+              <i class="ri-shield-check-line" aria-hidden="true"></i>
+            </span>
+          </div>
+          <p class="text-2xl font-extrabold mt-4">Not submitted</p>
+          <p class="text-xs text-slate-500 mt-2">Checklist is a visual example</p>
+        </article>
+
+      </section>
+      <section class="grid xl:grid-cols-5 gap-6 mt-7">
+
+        <article id="route" class="panel p-5 sm:p-6 xl:col-span-3">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-extrabold">Assigned Route</h2>
+              <p class="text-sm text-slate-500 mt-1">
+                School transport route information
+              </p>
+            </div>
+            <span class="w-12 h-12 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl">
+              <i class="ri-map-pin-route-line" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-sky-50 border border-sky-100 p-5">
+            <p class="text-xs uppercase tracking-wider text-sky-700 font-bold">
+              Route reference
+            </p>
+            <h3 class="text-2xl font-extrabold mt-2">Not assigned</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-6">
+              Your route will appear here once the transport administrator assigns it.
+            </p>
+          </div>
+
+          <div class="grid sm:grid-cols-2 gap-5 mt-6">
+            <div>
+              <p class="text-sm text-slate-500">Pickup start time</p>
+              <p class="font-bold mt-2">Not scheduled</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">School arrival time</p>
+              <p class="font-bold mt-2">Not scheduled</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">Pickup area</p>
+              <p class="font-bold mt-2">Not assigned</p>
+            </div>
+            <div>
+              <p class="text-sm text-slate-500">School destination</p>
+              <p class="font-bold mt-2">Not assigned</p>
+            </div>
+          </div>
+
+          <div class="mt-6 border-t border-slate-100 pt-5">
+            <p class="text-sm text-slate-500 leading-6">
+              Student pickup lists and exact home addresses should only be available to the authorised driver for the relevant route and duty.
+            </p>
+          </div>
+        </article>
+
+        <article id="vehicle" class="panel p-5 sm:p-6 xl:col-span-2">
+          <h2 class="text-xl font-extrabold">Vehicle Information</h2>
+          <p class="text-sm text-slate-500 mt-1">Assigned transport vehicle</p>
+
+          <div class="mt-6 rounded-2xl bg-slate-900 p-5 text-white">
+            <div class="flex justify-between items-center gap-3">
+              <span class="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-2xl text-sky-300">
+                <i class="ri-bus-2-fill" aria-hidden="true"></i>
+              </span>
+              <span class="text-xs bg-white/10 rounded-full px-3 py-2">Demo vehicle</span>
+            </div>
+            <h3 class="text-xl font-extrabold mt-5">Vehicle not assigned</h3>
+            <p class="text-sm text-slate-300 mt-2">Registration details unavailable</p>
+          </div>
+
+          <div class="mt-6 space-y-4">
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Registration number</span>
+              <span class="font-semibold text-right">Not provided</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Fitness / permit status</span>
+              <span class="font-semibold text-right">Not verified</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Insurance status</span>
+              <span class="font-semibold text-right">Not verified</span>
+            </div>
+            <div class="flex justify-between gap-4 text-sm">
+              <span class="text-slate-500">Last inspection</span>
+              <span class="font-semibold text-right">Not recorded</span>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-6 leading-5">
+            Confirm required documents and vehicle fitness with your operator before a duty begins.
+          </p>
+        </article>
+
+      </section>
+      <section id="safety" class="panel p-5 sm:p-6 mt-7">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h2 class="text-xl font-extrabold">Daily Safety Checklist</h2>
+            <p class="text-sm text-slate-500 mt-1">
+              Review these items before operating a school transport vehicle.
+            </p>
+          </div>
+          <span class="inline-flex items-center gap-2 text-sm text-slate-500">
+            <i class="ri-clipboard-line text-xl" aria-hidden="true"></i>
+            Visual checklist
+          </span>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4 mt-6">
+
+          <div class="border border-slate-100 rounded-2xl p-4 flex gap-3">
+            <i class="ri-checkbox-circle-line text-sky-600 text-2xl" aria-hidden="true"></i>
+            <div>
+              <h3 class="font-bold">Vehicle condition</h3>
+              <p class="text-sm text-slate-500 leading-6 mt-1">
+                Check tyres, brakes, lights, mirrors and other essential vehicle equipment.
+              </p>
+            </div>
+          </div>
+
+          <div class="border border-slate-100 rounded-2xl p-4 flex gap-3">
+            <i class="ri-checkbox-circle-line text-sky-600 text-2xl" aria-hidden="true"></i>
+            <div>
+              <h3 class="font-bold">Required documents</h3>
+              <p class="text-sm text-slate-500 leading-6 mt-1">
+                Confirm applicable licence, vehicle registration, insurance, permit and fitness documents.
+              </p>
+            </div>
+          </div>
+
+          <div class="border border-slate-100 rounded-2xl p-4 flex gap-3">
+            <i class="ri-checkbox-circle-line text-sky-600 text-2xl" aria-hidden="true"></i>
+            <div>
+              <h3 class="font-bold">Passenger safety</h3>
+              <p class="text-sm text-slate-500 leading-6 mt-1">
+                Follow safe boarding, seating, supervision and drop-off procedures.
+              </p>
+            </div>
+          </div>
+
+          <div class="border border-slate-100 rounded-2xl p-4 flex gap-3">
+            <i class="ri-checkbox-circle-line text-sky-600 text-2xl" aria-hidden="true"></i>
+            <div>
+              <h3 class="font-bold">Route readiness</h3>
+              <p class="text-sm text-slate-500 leading-6 mt-1">
+                Review the approved route, timings and any instructions from the operator.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="mt-6 p-4 rounded-xl bg-pink-50 border border-pink-100 flex gap-3">
+          <i class="ri-alert-line text-pink-600 text-xl" aria-hidden="true"></i>
+          <p class="text-sm leading-6 text-slate-700">
+            If a vehicle has a safety defect or a required document is invalid, report it to the responsible operator and follow applicable rules before operating the vehicle.
+          </p>
+        </div>
+      </section>
+      <section id="report" class="panel p-5 sm:p-6 mt-7">
+        <div class="flex items-center gap-3">
+          <span class="w-12 h-12 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center text-2xl">
+            <i class="ri-file-warning-line" aria-hidden="true"></i>
+          </span>
+          <div>
+            <h2 class="text-xl font-extrabold">Report a Vehicle or Route Issue</h2>
+            <p class="text-sm text-slate-500 mt-1">Contact your operator about a non-emergency issue.</p>
+          </div>
+        </div>
+
+        <form action="#" method="get" class="grid md:grid-cols-2 gap-5 mt-6">
+          <div>
+            <label for="issue-type" class="block text-sm font-semibold mb-2">
+              Issue category
+            </label>
+            <select id="issue-type" name="issue_type" required>
+              <option value="">Select a category</option>
+              <option value="vehicle">Vehicle maintenance</option>
+              <option value="route">Route information</option>
+              <option value="schedule">Schedule change</option>
+              <option value="documents">Vehicle documents</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="issue-reference" class="block text-sm font-semibold mb-2">
+              Route or vehicle reference
+            </label>
+            <input id="issue-reference" name="reference" type="text"
+              placeholder="Enter assigned reference if available">
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="issue-description" class="block text-sm font-semibold mb-2">
+              Describe the issue
+            </label>
+            <textarea id="issue-description" name="description" rows="4"
+              placeholder="Describe the issue without including unnecessary student personal information."
+              required></textarea>
+          </div>
+
+          <div class="md:col-span-2">
+            <button type="submit"
+              class="focus-ring bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-3 rounded-xl">
+              Submit Issue <i class="ri-arrow-right-line ml-1" aria-hidden="true"></i>
+            </button>
+            <p class="text-xs text-slate-500 mt-3 leading-5">
+              This demonstration form does not send or store reports. For emergencies, contact the appropriate local emergency service or responsible transport authority.
+            </p>
+          </div>
+        </form>
+      </section>
+      <section class="mt-7 bg-slate-900 text-white rounded-2xl p-6 sm:p-8">
+        <div class="flex flex-col sm:flex-row gap-5 sm:items-center">
+          <span class="w-14 h-14 shrink-0 rounded-2xl bg-white/10 text-sky-300 flex items-center justify-center text-3xl">
+            <i class="ri-lock-2-line" aria-hidden="true"></i>
+          </span>
+
+          <div class="flex-1">
+            <h2 class="text-xl font-extrabold">Protect student information</h2>
+            <p class="text-sm text-slate-300 leading-6 mt-2">
+              Use student information only for authorised transport duties. Do not share route lists, personal details or account credentials with unauthorised people.
+            </p>
+          </div>
+
+          <a href="privacy.html"
+            class="focus-ring shrink-0 text-center bg-white text-slate-900 rounded-xl px-5 py-3 font-bold text-sm hover:bg-sky-100">
+            Privacy Policy
+          </a>
+        </div>
+      </section>
+      <footer class="py-8 mt-4 flex flex-col sm:flex-row justify-between gap-4 text-sm text-slate-500">
+        <p>© 2026 SchoolVan. Frontend demonstration.</p>
+        <div class="flex flex-wrap gap-5">
+          <a href="privacy.html" class="hover:text-sky-600">Privacy</a>
+          <a href="terms.html" class="hover:text-sky-600">Terms</a>
+          <a href="contact.html" class="hover:text-sky-600">Contact</a>
+          <a href="help.html" class="hover:text-sky-600">Help Centre</a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+</body>
+</html>
