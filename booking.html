@@ -16,18 +16,62 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
 
   <style>
+    :root {
+      --navy: #202a38;
+      --sky: #0284c7;
+      --sky-light: #d9f2ff;
+      --pink-light: #fce7f3;
+      --page-bg: #f7faff;
+      --text-primary: #202a38;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius-control: 12px;
+      --radius-card: 16px;
+      --radius-panel: 24px;
+    }
+
     * {
       scroll-behavior: smooth;
     }
 
     body {
-      background: #f7faff;
-      color: #202a38;
+      background: var(--page-bg);
+      color: var(--text-primary);
     }
 
     :focus-visible {
-      outline: 3px solid #0284c7;
+      outline: 3px solid var(--sky);
       outline-offset: 3px;
+    }
+
+    a,
+    button,
+    summary,
+    input,
+    select,
+    textarea {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Consistent text-colour system */
+    :where(.text-slate-600, .text-slate-700, .text-slate-500) {
+      color: var(--text-secondary);
+    }
+
+    :where(.text-slate-400) {
+      color: var(--text-muted);
+    }
+
+    :where(.text-sky-700) {
+      color: #0369a1;
+    }
+
+    /* Preserve readable text on dark backgrounds */
+    .bg-\[\#202a38\] .text-slate-300,
+    .bg-\[\#202a38\] .text-slate-400,
+    .bg-\[\#202a38\] .text-slate-500 {
+      color: #cbd5e1;
     }
 
     .sidebar-link {
@@ -35,26 +79,28 @@
       align-items: center;
       gap: 12px;
       padding: 13px 15px;
-      border-radius: 14px;
+      border-radius: var(--radius-control);
       color: #b9c6d7;
-      transition: 0.3s;
+      transition: background-color 0.2s, color 0.2s;
     }
 
     .sidebar-link:hover,
     .sidebar-link.active {
-      background: #d9f2ff;
-      color: #202a38;
+      background: var(--sky-light);
+      color: var(--navy);
     }
 
     .form-input {
+      display: block;
       width: 100%;
+      min-height: 48px;
       border: 1px solid #dbe4ef;
-      border-radius: 12px;
+      border-radius: var(--radius-control);
       padding: 13px 15px;
       background: white;
-      color: #202a38;
+      color: var(--text-primary);
       outline: none;
-      transition: 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .form-input:focus {
@@ -63,12 +109,13 @@
     }
 
     .form-input::placeholder {
-      color: #94a3b8;
+      color: #64748b;
+      opacity: 1;
     }
 
     .section-card {
       border: 1px solid #e5edf5;
-      border-radius: 22px;
+      border-radius: var(--radius-panel);
       background: white;
       padding: 24px;
       box-shadow: 0 10px 35px #202a3808;
@@ -80,43 +127,99 @@
       height: 38px;
       flex-shrink: 0;
       place-items: center;
-      border-radius: 12px;
-      background: #d9f2ff;
+      border-radius: var(--radius-control);
+      background: var(--sky-light);
       font-weight: 800;
     }
-		summary::-webkit-details-marker {
-		display: none;
-	}
 
-	summary {
-		list-style: none;
-	}
+    /* Shared corner-radius system */
+    [class~="rounded-xl"] {
+      border-radius: var(--radius-control);
+    }
 
-	details[open] > div {
-		animation: popoverOpen 0.2s ease-out;
-	}
+    [class~="rounded-2xl"] {
+      border-radius: var(--radius-card);
+    }
 
-	@keyframes popoverOpen {
-		from {
-			opacity: 0;
-			transform: translateY(-6px) scale(0.98);
-		}
-	
-		to {
-			opacity: 1;
-			transform: translateY(0) scale(1);
-		}
-	}
-	   @media (min-width: 1023px) {
-      .desktop-sidebar {
-        display: none;
+    [class~="rounded-3xl"] {
+      border-radius: var(--radius-panel);
+    }
+
+    /* Native details/summary accessibility */
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary {
+      list-style: none;
+    }
+
+    summary:focus-visible {
+      outline: 3px solid var(--sky);
+      outline-offset: 4px;
+    }
+
+    details[open] > div {
+      animation: popoverOpen 0.2s ease-out;
+    }
+
+    @keyframes popoverOpen {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* FAQ accordion indicators */
+    .faq-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .faq-summary::after {
+      content: "+";
+      display: grid;
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      place-items: center;
+      border-radius: 8px;
+      background: var(--sky-light);
+      color: #075985;
+      font-size: 23px;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    details[open] > .faq-summary::after {
+      content: "\2212";
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
 
 <body class="antialiased">
-<aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-[#202a38] px-5 py-7 lg:flex">
+
+  <!-- Desktop sidebar -->
+  <aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-[#202a38] px-5 py-7 lg:flex">
 
     <a href="index.html" class="mb-10 flex items-center gap-3 px-2">
       <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-300 text-3xl text-slate-900">
@@ -127,7 +230,6 @@
         <span class="text-2xl font-extrabold text-white">
           School<span class="text-sky-300">Van</span>
         </span>
-
         <p class="text-xs text-slate-400">Aurangabad, Maharashtra</p>
       </div>
     </a>
@@ -136,13 +238,15 @@
       Main Menu
     </p>
 
-    <nav aria-label="Main navigation" class="space-y-2 active">
+    <nav aria-label="Main navigation" class="space-y-2">
       <a href="index.html" class="sidebar-link">
-        <i class="ri-home-5-line text-xl" aria-hidden="true"></i> Home
+        <i class="ri-home-5-line text-xl" aria-hidden="true"></i>
+        Home
       </a>
 
-      <a href="booking.html" class="sidebar-link active">
-        <i class="ri-calendar-check-line text-xl" aria-hidden="true"></i> Book a Van
+      <a href="booking.html" class="sidebar-link active" aria-current="page">
+        <i class="ri-calendar-check-line text-xl" aria-hidden="true"></i>
+        Book a Van
       </a>
 
       <a href="schools.html" class="sidebar-link">
@@ -154,7 +258,9 @@
         <i class="ri-map-pin-line text-xl" aria-hidden="true"></i>
         Track a Van
       </a>
-		<hr>
+
+      <hr class="border-slate-600">
+
       <a href="parent-login.html" class="sidebar-link">
         <i class="ri-user-line text-xl" aria-hidden="true"></i>
         Parent Login
@@ -171,196 +277,115 @@
         <i class="ri-map-pin-2-line" aria-hidden="true"></i>
       </div>
 
-      <h3 class="font-bold text-white">Location Aurangabad</h3>
+      <h2 class="font-bold text-white">Location Aurangabad</h2>
 
       <p class="mt-2 text-sm leading-6 text-slate-300">
         Designed for local schools, parents and school van drivers.
       </p>
     </div>
 
+    <!-- Login links replace the redundant sidebar forms -->
     <div class="mt-auto space-y-3 pt-6">
-      <details class="popover">
-        <summary class="rounded-xl bg-sky-300 px-4 py-3 text-center font-bold text-slate-900 transition hover:bg-sky-200">
-          <i class="ri-user-line mr-2" aria-hidden="true"></i>
-          Student Login
-        </summary>
+      <a href="parent-login.html"
+         class="block rounded-xl bg-sky-300 px-4 py-3 text-center font-bold text-slate-900 transition hover:bg-sky-200">
+        <i class="ri-user-line mr-2" aria-hidden="true"></i>
+        Parent Login
+      </a>
 
-        <div class="popover-panel">
-          <h3 class="text-xl font-black">Student / Parent Login</h3>
-
-          <p class="mt-2 text-sm text-slate-500">
-            Access your school transport account.
-          </p>
-
-          <form action="#" class="mt-5 space-y-4">
-            <div>
-              <label for="studentPhone" class="mb-2 block text-sm font-semibold">
-                Mobile Number
-              </label>
-
-              <input
-                id="studentPhone"
-                type="tel"
-                autocomplete="tel"
-                required
-                placeholder="Enter mobile number"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
-            </div>
-
-            <div>
-              <label for="studentPassword" class="mb-2 block text-sm font-semibold">
-                Password
-              </label>
-
-              <input
-                id="studentPassword"
-                type="password"
-                autocomplete="current-password"
-                required
-                placeholder="Enter password"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
-            </div>
-
-            <button type="submit" class="w-full rounded-xl bg-sky-300 py-3 font-bold">
-              Login
-            </button>
-          </form>
-
-          <p class="mt-4 text-xs leading-5 text-slate-400">
-            Demo only. Login is not connected to an authentication service.
-          </p>
-        </div>
-      </details>
-      <details class="popover">
-        <summary class="rounded-xl border border-pink-200 px-4 py-3 text-center font-bold text-pink-200 transition hover:bg-pink-200 hover:text-slate-900">
-          <i class="ri-steering-2-line mr-2" aria-hidden="true"></i>
-          Driver Login
-        </summary>
-
-        <div class="popover-panel">
-          <h3 class="text-xl font-black">Driver Login</h3>
-
-          <p class="mt-2 text-sm text-slate-500">
-            For school van drivers.
-          </p>
-
-          <form action="#" class="mt-5 space-y-4">
-            <div>
-              <label for="driverId" class="mb-2 block text-sm font-semibold">
-                Driver ID
-              </label>
-
-              <input
-                id="driverId"
-                type="text"
-                required
-                placeholder="Enter driver ID"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
-            </div>
-
-            <div>
-              <label for="driverPassword" class="mb-2 block text-sm font-semibold">
-                Password
-              </label>
-
-              <input
-                id="driverPassword"
-                type="password"
-                autocomplete="current-password"
-                required
-                placeholder="Enter password"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
-            </div>
-
-            <button type="submit" class="w-full rounded-xl bg-[#202a38] py-3 font-bold text-white">
-              Driver Sign In
-            </button>
-          </form>
-
-          <p class="mt-4 text-xs leading-5 text-slate-400">
-            Demo only. Driver authentication is not implemented.
-          </p>
-        </div>
-      </details>
+      <a href="driver-login.html"
+         class="block rounded-xl border border-pink-200 px-4 py-3 text-center font-bold text-pink-200 transition hover:bg-pink-200 hover:text-slate-900">
+        <i class="ri-steering-2-line mr-2" aria-hidden="true"></i>
+        Driver Login
+      </a>
     </div>
   </aside>
-<header class="relative z-50 flex items-center justify-between bg-white px-5 py-4 shadow-sm md:hidden">
-    <a href="#" class="flex items-center gap-2">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-xl text-sky-600">
-            <i class="ri-bus-line"></i>
-        </span>
-        <span class="text-lg font-bold text-[#202a38]">
-            SchoolVan
-        </span>
+
+  <!-- Mobile header and popover menu -->
+  <header class="relative z-50 flex items-center justify-between bg-white px-5 py-4 shadow-sm md:hidden">
+
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-xl text-sky-600">
+        <i class="ri-bus-line" aria-hidden="true"></i>
+      </span>
+
+      <span class="text-lg font-bold text-[#202a38]">
+        SchoolVan
+      </span>
     </a>
+
     <div class="relative">
-        <details class="group">
-            <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-sky-50 text-2xl text-[#202a38] transition hover:bg-sky-100">
-                <i class="ri-menu-3-line group-open:hidden"></i>
-                <i class="ri-close-line hidden group-open:block"></i>
-            </summary>
-            <div class="absolute right-0 top-14 z-[100] w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
-                <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Navigation
-                </p>
+      <details class="group">
+        <summary class="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl bg-sky-50 text-2xl text-[#202a38] transition hover:bg-sky-100"
+                 aria-label="Open navigation menu">
+          <i class="ri-menu-3-line group-open:hidden" aria-hidden="true"></i>
+          <i class="ri-close-line hidden group-open:block" aria-hidden="true"></i>
+        </summary>
 
-                <a href="index.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-home-5-line text-lg"></i>
-                    Home
-                </a>
+        <div class="absolute right-0 top-14 z-[100] w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
 
-                <a href="booking.html"
-                   class="flex items-center gap-3 rounded-xl bg-sky-50 px-3 py-3 text-sm font-semibold text-sky-600">
-                    <i class="ri-calendar-check-line text-lg"></i>
-                    Book a Van
-                </a>
+          <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wider text-slate-400">
+            Navigation
+          </p>
 
-                <a href="schools.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-school-line text-lg"></i>
-                    Schools Directory
-                </a>
+          <a href="index.html"
+             class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-home-5-line text-lg" aria-hidden="true"></i>
+            Home
+          </a>
 
-                <a href="track-van.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-map-pin-line text-lg"></i>
-                    Track a Van
-                </a>
+          <a href="booking.html"
+             class="flex items-center gap-3 rounded-xl bg-sky-50 px-3 py-3 text-sm font-semibold text-sky-600"
+             aria-current="page">
+            <i class="ri-calendar-check-line text-lg" aria-hidden="true"></i>
+            Book a Van
+          </a>
 
-                <div class="my-2 border-t border-slate-100"></div>
+          <a href="schools.html"
+             class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-school-line text-lg" aria-hidden="true"></i>
+            Schools Directory
+          </a>
 
-                <a href="parent-login.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-user-line text-lg"></i>
-                    Parent Login
-                </a>
+          <a href="track-van.html"
+             class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-map-pin-line text-lg" aria-hidden="true"></i>
+            Track a Van
+          </a>
 
-                <a href="driver-login.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-steering-2-line text-lg"></i>
-                    Driver Login
-                </a>
+          <div class="my-2 border-t border-slate-100"></div>
 
-                <a href="contact.html"
-                   class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[#202a38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-600">
-                    <i class="ri-customer-service-2-line"></i>
-                    Get Help
-                </a>
-            </div>
-        </details>
+          <a href="parent-login.html"
+             class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-user-line text-lg" aria-hidden="true"></i>
+            Parent Login
+          </a>
+
+          <a href="driver-login.html"
+             class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-steering-2-line text-lg" aria-hidden="true"></i>
+            Driver Login
+          </a>
+
+          <a href="contact.html"
+             class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[#202a38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-600">
+            <i class="ri-customer-service-2-line" aria-hidden="true"></i>
+            Get Help
+          </a>
+        </div>
+      </details>
     </div>
-</header>
+  </header>
+
   <main class="lg:ml-64">
+
+    <!-- Hero section -->
     <section class="relative overflow-hidden bg-[#202a38] px-6 py-14 text-white sm:px-10 lg:px-14 lg:py-20">
-      <div class="absolute -right-16 -top-20 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl"></div>
-      <div class="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-pink-300/10 blur-3xl"></div>
+
+      <div class="pointer-events-none absolute -right-16 -top-20 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl"></div>
+      <div class="pointer-events-none absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-pink-300/10 blur-3xl"></div>
 
       <div class="relative mx-auto max-w-7xl">
+
         <nav class="mb-8 text-sm text-slate-400" aria-label="Breadcrumb">
           <a href="index.html" class="hover:text-sky-300">Home</a>
           <i class="ri-arrow-right-s-line mx-2" aria-hidden="true"></i>
@@ -368,6 +393,7 @@
         </nav>
 
         <div class="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+
           <div>
             <span class="inline-flex items-center gap-2 rounded-full border border-sky-300/30 bg-sky-300/10 px-4 py-2 text-sm font-semibold text-sky-200">
               <i class="ri-calendar-check-line" aria-hidden="true"></i>
@@ -388,37 +414,43 @@
                 <i class="ri-map-pin-line mr-1 text-sky-300" aria-hidden="true"></i>
                 Pickup details
               </span>
+
               <span class="rounded-full bg-white/10 px-4 py-2">
                 <i class="ri-calendar-line mr-1 text-pink-200" aria-hidden="true"></i>
                 Flexible schedule
               </span>
+
               <span class="rounded-full bg-white/10 px-4 py-2">
                 <i class="ri-route-line mr-1 text-sky-300" aria-hidden="true"></i>
                 Route planning
               </span>
             </div>
 
-            <a href="#booking-form" class="mt-8 inline-flex items-center gap-2 rounded-xl bg-pink-200 px-6 py-4 font-extrabold text-slate-900 transition hover:bg-pink-100">
+            <a href="#booking-form"
+               class="mt-8 inline-flex items-center gap-2 rounded-xl bg-pink-200 px-6 py-4 font-extrabold text-slate-900 transition hover:bg-pink-100">
               Start Your Booking
               <i class="ri-arrow-down-line" aria-hidden="true"></i>
             </a>
           </div>
 
           <div class="relative mx-auto w-full max-w-md">
-            <div class="absolute -inset-4 rounded-[35px] bg-sky-300/10 blur-xl"></div>
+            <div class="pointer-events-none absolute -inset-4 rounded-[35px] bg-sky-300/10 blur-xl"></div>
 
             <div class="relative rounded-[28px] border border-white/10 bg-white/5 p-6 backdrop-blur sm:p-8">
+
               <div class="flex items-center justify-between">
                 <div>
                   <p class="text-sm text-slate-400">Your journey starts here</p>
                   <h2 class="mt-1 text-2xl font-extrabold">Plan your route</h2>
                 </div>
+
                 <div class="grid h-14 w-14 place-items-center rounded-2xl bg-pink-200 text-3xl text-slate-900">
                   <i class="ri-bus-line" aria-hidden="true"></i>
                 </div>
               </div>
 
               <div class="mt-8 space-y-5">
+
                 <div class="flex gap-4">
                   <div class="grid h-10 w-10 flex-shrink-0 place-items-center rounded-xl bg-sky-300/15 text-xl text-sky-300">
                     <i class="ri-map-pin-user-line" aria-hidden="true"></i>
@@ -445,9 +477,10 @@
                   </div>
                   <div>
                     <h3 class="font-bold">Choose a schedule</h3>
-                    <p class="mt-1 text-sm leading-6 text-slate-400">Display your preferred start date and travel type.</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-400">Choose your preferred start date and travel type.</p>
                   </div>
                 </div>
+
               </div>
 
               <div class="mt-8 rounded-xl bg-white/10 p-4 text-sm leading-6 text-slate-300">
@@ -456,45 +489,60 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
+
+    <!-- Booking overview cards -->
     <section class="px-5 py-12 sm:px-10 lg:px-14">
       <div class="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+
         <article class="rounded-2xl border border-slate-200 bg-white p-6">
           <div class="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-sky-100 text-2xl text-sky-700">
-            <i class="ri-route-line" aria-hidden="true"></i>
+            <i class="ri-user-line" aria-hidden="true"></i>
           </div>
-          <h2 class="text-lg font-extrabold">Route Information</h2>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Describe your pickup area and school destination for your commute.</p>
+          <h2 class="text-lg font-extrabold">Parent and Student Details</h2>
+          <p class="mt-2 text-sm leading-7 text-slate-600">
+            Provide the parent contact information, student name, class and school name.
+          </p>
         </article>
 
         <article class="rounded-2xl border border-slate-200 bg-white p-6">
           <div class="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-pink-100 text-2xl text-pink-700">
-            <i class="ri-calendar-schedule-line" aria-hidden="true"></i>
+            <i class="ri-route-line" aria-hidden="true"></i>
           </div>
-          <h2 class="text-lg font-extrabold">Preferred Schedule</h2>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Choose your expected start date, travel frequency and journey type.</p>
+          <h2 class="text-lg font-extrabold">Pickup and Destination</h2>
+          <p class="mt-2 text-sm leading-7 text-slate-600">
+            Enter your pickup locality and school destination to describe the required route.
+          </p>
         </article>
 
         <article class="rounded-2xl border border-slate-200 bg-white p-6">
           <div class="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-sky-100 text-2xl text-sky-700">
-            <i class="ri-file-list-3-line" aria-hidden="true"></i>
+            <i class="ri-calendar-schedule-line" aria-hidden="true"></i>
           </div>
-          <h2 class="text-lg font-extrabold">Booking Overview</h2>
-          <p class="mt-2 text-sm leading-7 text-slate-600">Review the information needed for a school transport request.</p>
+          <h2 class="text-lg font-extrabold">Travel Schedule</h2>
+          <p class="mt-2 text-sm leading-7 text-slate-600">
+            Choose the expected start date, pickup time, travel type and frequency.
+          </p>
         </article>
+
       </div>
     </section>
+
+    <!-- Booking form -->
     <section id="booking-form" class="scroll-mt-8 px-5 pb-16 sm:px-10 lg:px-14">
+
       <div class="mx-auto grid max-w-7xl items-start gap-8 lg:grid-cols-[1fr_340px]">
 
         <div class="section-card sm:p-8">
+
           <div class="mb-8">
-            <p class="text-sm font-extrabold uppercase tracking-[3px] text-sky-700">Booking Details</p>
+            <p class="text-sm font-extrabold text-sky-700">Booking Details</p>
             <h2 class="mt-3 text-3xl font-black sm:text-4xl">School Van Request Form</h2>
             <p class="mt-3 leading-7 text-slate-600">
-              Fill in the details below to show how a school transport request form can be organized.
+              Fill in the details below to describe your school transport requirements.
             </p>
           </div>
 
@@ -507,20 +555,28 @@
               </legend>
 
               <div class="grid gap-5 sm:grid-cols-2">
+
                 <div>
-                  <label for="parentName" class="mb-2 block text-sm font-bold">Parent or Guardian Name *</label>
+                  <label for="parentName" class="mb-2 block text-sm font-bold">
+                    Parent or Guardian Name *
+                  </label>
                   <input class="form-input" id="parentName" name="parentName" type="text" autocomplete="name" placeholder="Enter full name" required>
                 </div>
 
                 <div>
-                  <label for="phone" class="mb-2 block text-sm font-bold">Contact Number *</label>
+                  <label for="phone" class="mb-2 block text-sm font-bold">
+                    Contact Number *
+                  </label>
                   <input class="form-input" id="phone" name="phone" type="tel" autocomplete="tel" placeholder="Enter contact number" required>
                 </div>
 
                 <div class="sm:col-span-2">
-                  <label for="email" class="mb-2 block text-sm font-bold">Email Address</label>
+                  <label for="email" class="mb-2 block text-sm font-bold">
+                    Email Address
+                  </label>
                   <input class="form-input" id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com">
                 </div>
+
               </div>
             </fieldset>
 
@@ -533,13 +589,18 @@
               </legend>
 
               <div class="grid gap-5 sm:grid-cols-2">
+
                 <div>
-                  <label for="studentName" class="mb-2 block text-sm font-bold">Student Name *</label>
-                  <input class="form-input" id="studentName" name="studentName" type="text" placeholder="Enter student name" required>
+                  <label for="studentName" class="mb-2 block text-sm font-bold">
+                    Student Name *
+                  </label>
+                  <input class="form-input" id="studentName" name="studentName" type="text" autocomplete="off" placeholder="Enter student name" required>
                 </div>
 
                 <div>
-                  <label for="studentClass" class="mb-2 block text-sm font-bold">Class or Grade *</label>
+                  <label for="studentClass" class="mb-2 block text-sm font-bold">
+                    Class or Grade *
+                  </label>
                   <select class="form-input" id="studentClass" name="studentClass" required>
                     <option value="">Select class</option>
                     <option>Nursery</option>
@@ -561,9 +622,12 @@
                 </div>
 
                 <div class="sm:col-span-2">
-                  <label for="schoolName" class="mb-2 block text-sm font-bold">School Name *</label>
+                  <label for="schoolName" class="mb-2 block text-sm font-bold">
+                    School Name *
+                  </label>
                   <input class="form-input" id="schoolName" name="schoolName" type="text" placeholder="Enter school name" required>
                 </div>
+
               </div>
             </fieldset>
 
@@ -576,49 +640,65 @@
               </legend>
 
               <div class="grid gap-5 sm:grid-cols-2">
+
                 <div class="sm:col-span-2">
-                  <label for="pickup" class="mb-2 block text-sm font-bold">Pickup Area or Locality *</label>
-                  <input class="form-input" id="pickup" name="pickup" type="text" placeholder="Enter pickup locality" required>
+                  <label for="pickup" class="mb-2 block text-sm font-bold">
+                    Pickup Area or Locality *
+                  </label>
+                  <input class="form-input" id="pickup" name="pickup" type="text" autocomplete="street-address" placeholder="Enter pickup locality" required>
                 </div>
 
                 <div class="sm:col-span-2">
-                  <label for="destination" class="mb-2 block text-sm font-bold">School Destination or Area *</label>
+                  <label for="destination" class="mb-2 block text-sm font-bold">
+                    School Destination or Area *
+                  </label>
                   <input class="form-input" id="destination" name="destination" type="text" placeholder="Enter school destination" required>
                 </div>
 
                 <div>
-                  <label for="travelType" class="mb-2 block text-sm font-bold">Type of Travel *</label>
+                  <label for="travelType" class="mb-2 block text-sm font-bold">
+                    Type of Travel *
+                  </label>
                   <select class="form-input" id="travelType" name="travelType" required>
                     <option value="">Select travel type</option>
-                    <option>One-way</option>
-                    <option>Round-trip</option>
+                    <option value="one-way">One-way</option>
+                    <option value="round-trip">Round-trip</option>
                   </select>
                 </div>
 
                 <div>
-                  <label for="startDate" class="mb-2 block text-sm font-bold">Expected Start Date *</label>
+                  <label for="startDate" class="mb-2 block text-sm font-bold">
+                    Expected Start Date *
+                  </label>
                   <input class="form-input" id="startDate" name="startDate" type="date" required>
                 </div>
 
                 <div>
-                  <label for="pickupTime" class="mb-2 block text-sm font-bold">Preferred Pickup Time *</label>
+                  <label for="pickupTime" class="mb-2 block text-sm font-bold">
+                    Preferred Pickup Time *
+                  </label>
                   <input class="form-input" id="pickupTime" name="pickupTime" type="time" required>
                 </div>
 
                 <div>
-                  <label for="frequency" class="mb-2 block text-sm font-bold">Travel Frequency *</label>
+                  <label for="frequency" class="mb-2 block text-sm font-bold">
+                    Travel Frequency *
+                  </label>
                   <select class="form-input" id="frequency" name="frequency" required>
                     <option value="">Select frequency</option>
-                    <option>School days</option>
-                    <option>Selected weekdays</option>
-                    <option>Occasional travel</option>
+                    <option value="school-days">School days</option>
+                    <option value="selected-weekdays">Selected weekdays</option>
+                    <option value="occasional">Occasional travel</option>
                   </select>
                 </div>
 
                 <div class="sm:col-span-2">
-                  <label for="notes" class="mb-2 block text-sm font-bold">Additional Requirements</label>
+                  <label for="notes" class="mb-2 block text-sm font-bold">
+                    Additional Requirements
+                  </label>
                   <textarea class="form-input resize-y" id="notes" name="notes" rows="4" placeholder="Add any general route preferences"></textarea>
                 </div>
+
               </div>
             </fieldset>
 
@@ -645,11 +725,15 @@
             <p class="mt-4 text-xs leading-6 text-slate-500">
               Design preview only. No booking is confirmed or saved by this page.
             </p>
+
           </form>
         </div>
-        <aside class="space-y-5 lg:sticky lg:top-8">
-          <div class="rounded-3xl bg-[#202a38] p-6 text-white sm:p-7">
-            <div class="mb-5 grid h-12 w-12 place-items-center rounded-xl bg-sky-300 text-2xl text-slate-900">
+
+        <!-- Right-side information cards -->
+        <aside class="flex flex-col gap-5 lg:sticky lg:top-8" aria-label="Booking information">
+
+          <section class="rounded-3xl bg-[#202a38] p-6 text-white sm:p-7">
+            <div class="mb-4 grid h-12 w-12 place-items-center rounded-xl bg-sky-300 text-2xl text-slate-900">
               <i class="ri-list-check-3" aria-hidden="true"></i>
             </div>
 
@@ -659,126 +743,179 @@
             </p>
 
             <ul class="mt-6 space-y-4 text-sm leading-6 text-slate-300">
-              <li class="flex gap-3"><i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>Check the school name and class.</li>
-              <li class="flex gap-3"><i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>Provide the correct pickup locality.</li>
-              <li class="flex gap-3"><i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>Choose a preferred start date.</li>
-              <li class="flex gap-3"><i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>Review the selected travel type.</li>
+              <li class="flex gap-3">
+                <i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>
+                <span>Check the school name and class.</span>
+              </li>
+              <li class="flex gap-3">
+                <i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>
+                <span>Provide the correct pickup locality.</span>
+              </li>
+              <li class="flex gap-3">
+                <i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>
+                <span>Choose a preferred start date.</span>
+              </li>
+              <li class="flex gap-3">
+                <i class="ri-check-line text-xl text-sky-300" aria-hidden="true"></i>
+                <span>Review the selected travel type.</span>
+              </li>
             </ul>
-          </div>
+          </section>
 
-          <div class="rounded-3xl border border-pink-200 bg-pink-50 p-6">
+          <section class="rounded-3xl border border-pink-200 bg-pink-50 p-6">
             <div class="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-pink-200 text-2xl text-slate-900">
               <i class="ri-shield-check-line" aria-hidden="true"></i>
             </div>
+
             <h2 class="text-lg font-extrabold">Child Safety Matters</h2>
             <p class="mt-2 text-sm leading-7 text-slate-600">
               Before choosing a provider, ask about driver verification, vehicle safety, pickup procedures and emergency contacts.
             </p>
-          </div>
+          </section>
 
-          <div class="rounded-3xl border border-slate-200 bg-white p-6">
+          <section class="rounded-3xl border border-slate-200 bg-white p-6">
             <h2 class="text-lg font-extrabold">Need Help?</h2>
             <p class="mt-2 text-sm leading-7 text-slate-600">
               Explore answers to common questions about school transport and booking.
             </p>
-            <a href="help.html" class="mt-4 inline-flex items-center gap-2 font-bold text-sky-700 hover:text-sky-900">
-              Visit Help Centre <i class="ri-arrow-right-line" aria-hidden="true"></i>
-            </a>
-          </div>
-        </aside>
 
+            <a href="help.html" class="mt-4 inline-flex items-center gap-2 font-bold text-sky-700 hover:text-sky-900">
+              Visit Help Centre
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
+            </a>
+          </section>
+
+        </aside>
       </div>
     </section>
+
+    <!-- How booking works -->
     <section class="bg-white px-5 py-16 sm:px-10 lg:px-14">
       <div class="mx-auto max-w-7xl">
+
         <div class="mx-auto max-w-2xl text-center">
-          <p class="text-sm font-extrabold uppercase tracking-[3px] text-sky-700">Simple Process</p>
-          <h2 class="mt-3 text-3xl font-black sm:text-4xl">How School Van Booking Works</h2>
+          <p class="text-sm font-extrabold text-sky-700">Simple Process</p>
+
+          <h2 class="mt-3 text-3xl font-black sm:text-4xl">
+            How School Van Booking Works
+          </h2>
+
           <p class="mt-4 leading-7 text-slate-600">
-            A clear process for organizing your school transport requirements.
+            Follow these steps to describe your school transport requirements.
           </p>
         </div>
 
         <div class="mt-10 grid gap-5 md:grid-cols-3">
+
           <article class="rounded-2xl border border-slate-200 bg-[#f7faff] p-6">
             <span class="text-sm font-extrabold tracking-widest text-sky-700">STEP 01</span>
+
             <div class="my-5 grid h-14 w-14 place-items-center rounded-2xl bg-sky-100 text-3xl text-sky-700">
               <i class="ri-file-edit-line" aria-hidden="true"></i>
             </div>
-            <h3 class="text-xl font-extrabold">Enter Your Details</h3>
+
+            <h3 class="text-xl font-extrabold">Enter Parent and Student Details</h3>
             <p class="mt-3 text-sm leading-7 text-slate-600">
-              Provide the school information, pickup locality and preferred travel schedule.
+              Provide parent contact information, student details and school name.
             </p>
           </article>
 
           <article class="rounded-2xl border border-slate-200 bg-[#f7faff] p-6">
             <span class="text-sm font-extrabold tracking-widest text-sky-700">STEP 02</span>
+
             <div class="my-5 grid h-14 w-14 place-items-center rounded-2xl bg-pink-100 text-3xl text-pink-700">
               <i class="ri-route-line" aria-hidden="true"></i>
             </div>
-            <h3 class="text-xl font-extrabold">Review Your Route</h3>
+
+            <h3 class="text-xl font-extrabold">Enter Pickup and Destination</h3>
             <p class="mt-3 text-sm leading-7 text-slate-600">
-              Check the pickup location, destination, start date and travel frequency.
+              Provide the pickup locality, school destination and required route details.
             </p>
           </article>
 
           <article class="rounded-2xl border border-slate-200 bg-[#f7faff] p-6">
             <span class="text-sm font-extrabold tracking-widest text-sky-700">STEP 03</span>
+
             <div class="my-5 grid h-14 w-14 place-items-center rounded-2xl bg-sky-100 text-3xl text-sky-700">
-              <i class="ri-checkbox-circle-line" aria-hidden="true"></i>
+              <i class="ri-calendar-check-line" aria-hidden="true"></i>
             </div>
-            <h3 class="text-xl font-extrabold">Confirm Arrangements</h3>
+
+            <h3 class="text-xl font-extrabold">Choose Your Travel Schedule</h3>
             <p class="mt-3 text-sm leading-7 text-slate-600">
-              In a real service, the transport provider would review availability and confirm the booking.
+              Select your expected start date, pickup time, travel type and frequency.
             </p>
           </article>
+
         </div>
       </div>
     </section>
+
+    <!-- Frequently asked questions -->
     <section class="px-5 py-16 sm:px-10 lg:px-14">
       <div class="mx-auto max-w-3xl">
+
         <div class="text-center">
-          <p class="text-sm font-extrabold uppercase tracking-[3px] text-sky-700">Frequently Asked Questions</p>
-          <h2 class="mt-3 text-3xl font-black sm:text-4xl">School Van Booking FAQs</h2>
+          <p class="text-sm font-extrabold text-sky-700">
+            Frequently Asked Questions
+          </p>
+
+          <h2 class="mt-3 text-3xl font-black sm:text-4xl">
+            School Van Booking FAQs
+          </h2>
         </div>
 
         <div class="mt-8 space-y-4">
+
           <details class="rounded-2xl border border-slate-200 bg-white p-5">
-            <summary class="cursor-pointer font-extrabold">How do I request a school van?</summary>
+            <summary class="faq-summary font-extrabold">
+              <span>How do I request a school van?</span>
+            </summary>
             <p class="mt-3 leading-7 text-slate-600">
               Enter the parent contact information, school details, pickup locality, destination and preferred schedule in the form.
             </p>
           </details>
 
           <details class="rounded-2xl border border-slate-200 bg-white p-5">
-            <summary class="cursor-pointer font-extrabold">Can I request one-way school transport?</summary>
+            <summary class="faq-summary font-extrabold">
+              <span>Can I request one-way school transport?</span>
+            </summary>
             <p class="mt-3 leading-7 text-slate-600">
-              Yes. The design includes options for one-way and round-trip school transport.
+              Yes. The form includes options for one-way and round-trip school transport.
             </p>
           </details>
 
           <details class="rounded-2xl border border-slate-200 bg-white p-5">
-            <summary class="cursor-pointer font-extrabold">Is the booking confirmed after submitting?</summary>
+            <summary class="faq-summary font-extrabold">
+              <span>Is the booking confirmed after submitting?</span>
+            </summary>
             <p class="mt-3 leading-7 text-slate-600">
               No. This page is a frontend design only. A working booking system needs a backend and provider confirmation.
             </p>
           </details>
 
           <details class="rounded-2xl border border-slate-200 bg-white p-5">
-            <summary class="cursor-pointer font-extrabold">Does this page provide live van tracking?</summary>
+            <summary class="faq-summary font-extrabold">
+              <span>Does this page provide live van tracking?</span>
+            </summary>
             <p class="mt-3 leading-7 text-slate-600">
               No. Live tracking requires a connected GPS source, backend service, suitable permissions and a map interface.
             </p>
           </details>
+
         </div>
       </div>
     </section>
+
+    <!-- Footer -->
     <footer class="bg-[#202a38] px-6 py-12 text-white sm:px-10 lg:px-14">
+
       <div class="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
         <div>
           <a href="index.html" class="text-3xl font-black">
             School<span class="text-sky-300">Van</span>
           </a>
+
           <p class="mt-4 max-w-xs text-sm leading-7 text-slate-400">
             A school transport website concept for families exploring school van booking in Aurangabad, Maharashtra.
           </p>
@@ -788,8 +925,9 @@
           <h2 class="font-extrabold">Explore</h2>
           <ul class="mt-4 space-y-3 text-sm text-slate-400">
             <li><a class="hover:text-sky-300" href="index.html">Home</a></li>
-            <li><a class="hover:text-sky-300" href="book-van.html">Book a Van</a></li>
+            <li><a class="hover:text-sky-300" href="booking.html">Book a Van</a></li>
             <li><a class="hover:text-sky-300" href="schools.html">Schools Directory</a></li>
+            <li><a class="hover:text-sky-300" href="track-van.html">Track a Van</a></li>
           </ul>
         </div>
 
@@ -808,12 +946,14 @@
             <li><a class="hover:text-sky-300" href="help.html">Help Centre</a></li>
             <li><a class="hover:text-sky-300" href="privacy.html">Privacy Policy</a></li>
             <li><a class="hover:text-sky-300" href="terms.html">Terms and Conditions</a></li>
+            <li><a class="hover:text-sky-300" href="contact.html">Contact Us</a></li>
           </ul>
         </div>
+
       </div>
 
       <div class="mx-auto mt-10 max-w-7xl border-t border-slate-700 pt-6 text-center text-sm text-slate-400">
-        © 2026 SchoolVan Aurangabad All rights reserved
+        &copy; 2026 SchoolVan Aurangabad. All rights reserved.
       </div>
     </footer>
 
