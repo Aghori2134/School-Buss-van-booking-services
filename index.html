@@ -172,26 +172,6 @@
       }
     }
 
-    .mobile-menu {
-      display: none;
-    }
-
-    #mobile-toggle:checked ~ .mobile-menu {
-      display: block;
-    }
-
-    #mobile-toggle:checked + label .menu-open {
-      display: none;
-    }
-
-    #mobile-toggle:checked + label .menu-close {
-      display: inline;
-    }
-
-    .menu-close {
-      display: none;
-    }
-
     @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
@@ -201,17 +181,42 @@
         animation-iteration-count: 1 !important;
       }
     }
-	
+
+    @media (min-width: 1024px) {
+      main {
+        margin-left: 16rem;
+      }
+    }
+
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      border-radius: 1rem;
+      background: #83d6ff;
+      padding: 1rem 1.5rem;
+      color: #202a38;
+      font-weight: 700;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .primary-button:hover {
+      background: #b4e8ff;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 
 <body class="overflow-x-hidden">
-  <div id="loader">
+
+  <!-- Loading Screen -->
+  <div id="loader" aria-label="Loading SchoolVan">
     <div class="mb-5 text-4xl text-sky-300">
       <i class="ri-bus-2-fill" aria-hidden="true"></i>
     </div>
 
-    <div class="loader-circle"></div>
+    <div class="loader-circle" aria-hidden="true"></div>
 
     <h2 class="mt-5 text-2xl font-bold text-white">
       School<span class="text-sky-300">Van</span>
@@ -222,10 +227,16 @@
     </p>
   </div>
 
-  <div class="progress-line fixed left-0 top-0 z-[90] h-1 w-full bg-sky-400"></div>
+  <!-- Scroll Progress -->
+  <div
+    class="progress-line fixed left-0 top-0 z-[90] h-1 w-full bg-sky-400"
+    aria-hidden="true">
+  </div>
+
+  <!-- Desktop Sidebar -->
   <aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col border-r border-slate-200 bg-[#202a38] px-5 py-7 lg:flex">
 
-    <a href="#home" class="mb-10 flex items-center gap-3 px-2">
+    <a href="#home" class="mb-10 flex items-center gap-3 px-2" aria-label="SchoolVan home">
       <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-300 text-3xl text-slate-900">
         <i class="ri-bus-2-fill" aria-hidden="true"></i>
       </div>
@@ -243,13 +254,15 @@
       Main Menu
     </p>
 
-    <nav aria-label="Main navigation" class="space-y-2 active">
-      <a href="index.html" class="sidebar-link">
-        <i class="ri-home-5-line text-xl" aria-hidden="true"></i> Home
+    <nav aria-label="Main navigation" class="space-y-2">
+      <a href="index.html" class="sidebar-link active" aria-current="page">
+        <i class="ri-home-5-line text-xl" aria-hidden="true"></i>
+        Home
       </a>
 
       <a href="booking.html" class="sidebar-link">
-        <i class="ri-calendar-check-line text-xl" aria-hidden="true"></i> Book a Van
+        <i class="ri-calendar-check-line text-xl" aria-hidden="true"></i>
+        Book a Van
       </a>
 
       <a href="schools.html" class="sidebar-link">
@@ -261,7 +274,9 @@
         <i class="ri-map-pin-line text-xl" aria-hidden="true"></i>
         Track a Van
       </a>
-	<hr>
+
+      <hr class="my-3 border-slate-700">
+
       <a href="parent-login.html" class="sidebar-link">
         <i class="ri-user-line text-xl" aria-hidden="true"></i>
         Parent Login
@@ -273,8 +288,9 @@
       </a>
     </nav>
 
-    <div class="mt-9 rounded-2xl border border-slate-600 bg-slate-700/50 p-4">
-      <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-pink-200 text-xl text-slate-800">
+    <!-- Location Card -->
+    <div class="mt-7 rounded-2xl border border-slate-700 bg-slate-700/50 p-4">
+      <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-slate-600 text-xl text-sky-200">
         <i class="ri-map-pin-2-line" aria-hidden="true"></i>
       </div>
 
@@ -285,7 +301,9 @@
       </p>
     </div>
 
+    <!-- Sidebar Login Popovers -->
     <div class="mt-auto space-y-3 pt-6">
+
       <details class="popover">
         <summary class="rounded-xl bg-sky-300 px-4 py-3 text-center font-bold text-slate-900 transition hover:bg-sky-200">
           <i class="ri-user-line mr-2" aria-hidden="true"></i>
@@ -299,7 +317,7 @@
             Access your school transport account.
           </p>
 
-          <form action="#" class="mt-5 space-y-4">
+          <form action="#" method="get" class="mt-5 space-y-4">
             <div>
               <label for="studentPhone" class="mb-2 block text-sm font-semibold">
                 Mobile Number
@@ -307,12 +325,13 @@
 
               <input
                 id="studentPhone"
+                name="studentPhone"
                 type="tel"
                 autocomplete="tel"
+                inputmode="tel"
                 required
                 placeholder="Enter mobile number"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
+                class="w-full rounded-xl border border-slate-200 px-3 py-3 focus:border-sky-400">
             </div>
 
             <div>
@@ -322,15 +341,15 @@
 
               <input
                 id="studentPassword"
+                name="studentPassword"
                 type="password"
                 autocomplete="current-password"
                 required
                 placeholder="Enter password"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
+                class="w-full rounded-xl border border-slate-200 px-3 py-3 focus:border-sky-400">
             </div>
 
-            <button type="submit" class="w-full rounded-xl bg-sky-300 py-3 font-bold">
+            <button type="submit" class="w-full rounded-xl bg-sky-300 py-3 font-bold transition hover:bg-sky-200">
               Login
             </button>
           </form>
@@ -340,6 +359,7 @@
           </p>
         </div>
       </details>
+
       <details class="popover">
         <summary class="rounded-xl border border-pink-200 px-4 py-3 text-center font-bold text-pink-200 transition hover:bg-pink-200 hover:text-slate-900">
           <i class="ri-steering-2-line mr-2" aria-hidden="true"></i>
@@ -353,7 +373,7 @@
             For school van drivers.
           </p>
 
-          <form action="#" class="mt-5 space-y-4">
+          <form action="#" method="get" class="mt-5 space-y-4">
             <div>
               <label for="driverId" class="mb-2 block text-sm font-semibold">
                 Driver ID
@@ -361,11 +381,12 @@
 
               <input
                 id="driverId"
+                name="driverId"
                 type="text"
+                autocomplete="username"
                 required
                 placeholder="Enter driver ID"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
+                class="w-full rounded-xl border border-slate-200 px-3 py-3 focus:border-sky-400">
             </div>
 
             <div>
@@ -375,15 +396,15 @@
 
               <input
                 id="driverPassword"
+                name="driverPassword"
                 type="password"
                 autocomplete="current-password"
                 required
                 placeholder="Enter password"
-                class="w-full rounded-xl border border-slate-200 px-3 py-3 outline-none focus:border-sky-400"
-              >
+                class="w-full rounded-xl border border-slate-200 px-3 py-3 focus:border-sky-400">
             </div>
 
-            <button type="submit" class="w-full rounded-xl bg-[#202a38] py-3 font-bold text-white">
+            <button type="submit" class="w-full rounded-xl bg-[#202a38] py-3 font-bold text-white transition hover:bg-slate-700">
               Driver Sign In
             </button>
           </form>
@@ -393,76 +414,84 @@
           </p>
         </div>
       </details>
+
     </div>
   </aside>
- <header class="relative z-50 flex items-center justify-between bg-white px-5 py-4 shadow-sm md:hidden">
-    <a href="#" class="flex items-center gap-2">
-        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-xl text-sky-600">
-            <i class="ri-bus-line"></i>
-        </span>
-        <span class="text-lg font-bold text-[#202a38]">
-            SchoolVan
-        </span>
+
+  <!-- Mobile Navigation -->
+  <header class="relative z-50 flex items-center justify-between bg-white px-5 py-4 shadow-sm md:hidden">
+
+    <a href="index.html" class="flex items-center gap-2" aria-label="SchoolVan home">
+      <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-xl text-sky-600">
+        <i class="ri-bus-line" aria-hidden="true"></i>
+      </span>
+
+      <span class="text-lg font-bold text-[#202a38]">
+        SchoolVan
+      </span>
     </a>
+
     <div class="relative">
-        <details class="group">
-            <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-sky-50 text-2xl text-[#202a38] transition hover:bg-sky-100">
-                <i class="ri-menu-3-line group-open:hidden"></i>
-                <i class="ri-close-line hidden group-open:block"></i>
-            </summary>
-            <div class="absolute right-0 top-14 z-[100] w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
-                <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Navigation
-                </p>
+      <details class="group">
+        <summary
+          aria-label="Open navigation menu"
+          class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-sky-50 text-2xl text-[#202a38] transition hover:bg-sky-100">
 
-                <a href="index.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-home-5-line text-lg"></i>
-                    Home
-                </a>
+          <i class="ri-menu-3-line group-open:hidden" aria-hidden="true"></i>
+          <i class="ri-close-line hidden group-open:block" aria-hidden="true"></i>
+        </summary>
 
-                <a href="booking.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-calendar-check-line text-lg"></i>
-                    Book a Van
-                </a>
+        <div class="absolute right-0 top-14 z-[100] w-64 rounded-2xl border border-slate-200 bg-white p-3 shadow-2xl">
 
-                <a href="schools.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-school-line text-lg"></i>
-                    Schools Directory
-                </a>
+          <p class="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-wider text-slate-400">
+            Navigation
+          </p>
 
-                <a href="track-van.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-map-pin-line text-lg"></i>
-                    Track a Van
-                </a>
+          <a href="index.html" aria-current="page" class="flex items-center gap-3 rounded-xl bg-sky-50 px-3 py-3 text-sm font-medium text-sky-700 transition hover:bg-sky-100">
+            <i class="ri-home-5-line text-lg" aria-hidden="true"></i>
+            Home
+          </a>
 
-                <div class="my-2 border-t border-slate-100"></div>
+          <a href="booking.html" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-calendar-check-line text-lg" aria-hidden="true"></i>
+            Book a Van
+          </a>
 
-                <a href="parent-login.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-user-line text-lg"></i>
-                    Parent Login
-                </a>
+          <a href="schools.html" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-school-line text-lg" aria-hidden="true"></i>
+            Schools Directory
+          </a>
 
-                <a href="driver-login.html"
-                   class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
-                    <i class="ri-steering-2-line text-lg"></i>
-                    Driver Login
-                </a>
+          <a href="track-van.html" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-map-pin-line text-lg" aria-hidden="true"></i>
+            Track a Van
+          </a>
 
-                <a href="contact.html"
-                   class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[#202a38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-600">
-                    <i class="ri-customer-service-2-line"></i>
-                    Get Help
-                </a>
-            </div>
-        </details>
+          <div class="my-2 border-t border-slate-100"></div>
+
+          <a href="parent-login.html" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-user-line text-lg" aria-hidden="true"></i>
+            Parent Login
+          </a>
+
+          <a href="driver-login.html" class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-slate-700 transition hover:bg-sky-50 hover:text-sky-600">
+            <i class="ri-steering-2-line text-lg" aria-hidden="true"></i>
+            Driver Login
+          </a>
+
+          <a href="contact.html" class="mt-2 flex items-center justify-center gap-2 rounded-xl bg-[#202a38] px-4 py-3 text-sm font-semibold text-white transition hover:bg-sky-600">
+            <i class="ri-customer-service-2-line" aria-hidden="true"></i>
+            Get Help
+          </a>
+
+        </div>
+      </details>
     </div>
-</header>
-  <main class="pt-20 lg:ml-64 lg:pt-0">
+  </header>
+
+  <main class="pt-20 lg:pt-0">
+
+    <!-- Hero Section -->
     <section id="home" class="relative overflow-hidden bg-[#202a38] px-6 py-16 text-white sm:px-10 lg:min-h-[620px] lg:px-14 lg:py-20">
 
       <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-300/10 blur-3xl"></div>
@@ -485,17 +514,17 @@
           </p>
 
           <div class="mt-8 flex flex-wrap gap-4">
-            <a href="#student-access" class="rounded-2xl bg-pink-200 px-6 py-4 font-bold text-slate-900 shadow-lg transition hover:-translate-y-1 hover:bg-pink-100">
+            <a href="booking.html" class="primary-button shadow-lg">
               Book a School Van
-              <i class="ri-arrow-right-line ml-2" aria-hidden="true"></i>
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
             </a>
 
-            <a href="#how" class="rounded-2xl border border-slate-500 px-6 py-4 font-semibold transition hover:border-sky-300 hover:text-sky-300">
+            <a href="#how" class="inline-flex items-center justify-center rounded-2xl border border-slate-500 px-6 py-4 font-semibold transition hover:border-sky-300 hover:text-sky-300">
               Explore How It Works
             </a>
           </div>
 
-          <div class="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300">
+          <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-300">
             <span>
               <i class="ri-shield-check-fill mr-1 text-sky-300" aria-hidden="true"></i>
               Safety focused
@@ -514,22 +543,23 @@
         </div>
 
         <div class="relative reveal">
-          <div class="absolute -inset-4 rounded-[35px] bg-gradient-to-br from-sky-300/20 to-pink-200/20 blur-xl"></div>
+          <div class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-sky-300/20 to-pink-200/20 blur-xl"></div>
 
-          <div class="relative overflow-hidden rounded-[30px] border border-white/10 bg-slate-700">
+          <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-700">
+
             <img
               fetchpriority="high"
               loading="eager"
               decoding="async"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQq3wPOD0lmfa6BYIiOhagwcVEj4EDRWQw5MV0diDkG8A&s=10"
               alt="Children getting ready for their school day"
-              class="h-[320px] w-full object-cover opacity-90 sm:h-[410px]"
-            >
+              class="h-[320px] w-full object-cover opacity-90 sm:h-[410px]">
 
             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent"></div>
 
             <div class="absolute bottom-5 left-5 right-5 rounded-2xl border border-white/20 bg-white/10 p-5 backdrop-blur-md">
               <div class="flex items-center justify-between gap-3">
+
                 <div>
                   <p class="text-sm text-sky-200">Your daily journey</p>
                   <h2 class="mt-1 text-xl font-bold text-white">Home to School</h2>
@@ -539,6 +569,7 @@
                 <div class="float-van flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-pink-200 text-3xl text-slate-900">
                   <i class="ri-bus-2-fill" aria-hidden="true"></i>
                 </div>
+
               </div>
             </div>
           </div>
@@ -551,12 +582,14 @@
 
       </div>
     </section>
+
+    <!-- Audience Cards -->
     <section class="px-6 py-8 sm:px-10 lg:px-14">
       <div class="grid gap-4 sm:grid-cols-3">
 
         <article class="reveal rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
           <i class="ri-user-heart-line text-3xl text-pink-400" aria-hidden="true"></i>
-          <h2 class="mt-4 text-lg font-bold">For Parents & Students</h2>
+          <h2 class="mt-4 text-lg font-bold">For Parents &amp; Students</h2>
           <p class="mt-2 text-sm leading-6 text-slate-500">
             Explore transport options and submit a booking request with ease.
           </p>
@@ -580,6 +613,8 @@
 
       </div>
     </section>
+
+    <!-- Services Section -->
     <section id="services" class="px-6 py-16 sm:px-10 lg:px-14">
 
       <div class="reveal mb-10 flex flex-wrap items-end justify-between gap-5">
@@ -598,12 +633,16 @@
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700">
             <i class="ri-calendar-check-line" aria-hidden="true"></i>
           </div>
+
           <h3 class="mt-5 text-xl font-bold">Easy Van Booking</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Submit your school, pickup location and preferred travel schedule in one place.
           </p>
-          <a href="#student-access" class="mt-5 inline-block font-bold text-sky-700">
-            Start booking <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="booking.html" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Start booking
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
@@ -611,12 +650,16 @@
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600">
             <i class="ri-map-pin-user-line" aria-hidden="true"></i>
           </div>
+
           <h3 class="mt-5 text-xl font-bold">Pickup Details</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Share your area and preferred pickup point so your transport request is clear.
           </p>
-          <a href="#how" class="mt-5 inline-block font-bold text-sky-700">
-            Learn the process <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="#how" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Learn the process
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
@@ -624,12 +667,16 @@
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700">
             <i class="ri-notification-3-line" aria-hidden="true"></i>
           </div>
+
           <h3 class="mt-5 text-xl font-bold">Journey Updates</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Keep booking and journey information organized in one convenient interface.
           </p>
-          <a href="#safety" class="mt-5 inline-block font-bold text-sky-700">
-            Explore features <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="#safety" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Explore features
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
@@ -637,25 +684,33 @@
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600">
             <i class="ri-parent-line" aria-hidden="true"></i>
           </div>
-          <h3 class="mt-5 text-xl font-bold">Parent-Friendly Access</h3>
+
+          <h3 class="mt-5 text-xl font-bold">Parent &amp; Student Access</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
-            Give parents a dedicated place to review their child's transport arrangements.
+            Parents and students can review transport arrangements and understand the booking process.
           </p>
-          <a href="#student-access" class="mt-5 inline-block font-bold text-sky-700">
-            Parent / Student login <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="parent-login.html" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Parent / Student login
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
         <article class="reveal rounded-3xl border border-slate-100 bg-white p-7 transition hover:-translate-y-2 hover:shadow-xl">
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-sky-100 text-3xl text-sky-700">
-            <i class="ri-steering-2-line" aria-hidden="true"></i>
+            <i class="ri-steering-wheel-line" aria-hidden="true"></i>
           </div>
+
           <h3 class="mt-5 text-xl font-bold">Driver Dashboard</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Provide drivers with their own entry point for handling assigned journeys.
           </p>
-          <a href="#driver-access" class="mt-5 inline-block font-bold text-sky-700">
-            Driver sign in <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="driver-login.html" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Driver sign in
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
@@ -663,22 +718,32 @@
           <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-pink-100 text-3xl text-pink-600">
             <i class="ri-customer-service-2-line" aria-hidden="true"></i>
           </div>
+
           <h3 class="mt-5 text-xl font-bold">Transport Assistance</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Help families know whom to contact about bookings and school transport queries.
           </p>
-          <a href="#contact" class="mt-5 inline-block font-bold text-sky-700">
-            Contact us <i class="ri-arrow-right-line" aria-hidden="true"></i>
+
+          <a href="#contact" class="mt-5 inline-flex items-center gap-2 font-bold text-sky-700 transition hover:text-sky-500">
+            Contact us
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </article>
 
       </div>
     </section>
+
+    <!-- How It Works -->
     <section id="how" class="bg-[#eaf7ff] px-6 py-16 sm:px-10 lg:px-14">
 
       <div class="reveal mx-auto max-w-3xl text-center">
         <p class="font-bold uppercase tracking-[3px] text-sky-700">A Simple Process</p>
-        <h2 class="mt-3 text-3xl font-black sm:text-4xl">Three steps to get started.</h2>
+
+        <h2 class="mt-3 text-3xl font-black sm:text-4xl">
+          Three steps to get started.
+        </h2>
+
         <p class="mt-4 leading-7 text-slate-600">
           A straightforward booking journey for families in Aurangabad.
         </p>
@@ -688,8 +753,11 @@
 
         <article class="reveal rounded-3xl bg-white p-7 shadow-sm">
           <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-200 text-xl font-black">01</span>
+
           <i class="ri-user-add-line mt-6 block text-3xl text-sky-600" aria-hidden="true"></i>
+
           <h3 class="mt-4 text-xl font-bold">Create an Account</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Register as a student or parent and provide the basic details needed for a request.
           </p>
@@ -697,8 +765,11 @@
 
         <article class="reveal rounded-3xl bg-white p-7 shadow-sm">
           <span class="flex h-12 w-12 items-center justify-center rounded-full bg-sky-200 text-xl font-black">02</span>
+
           <i class="ri-bus-line mt-6 block text-3xl text-pink-500" aria-hidden="true"></i>
+
           <h3 class="mt-4 text-xl font-bold">Request a School Van</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Choose your school, area, pickup point and preferred school travel schedule.
           </p>
@@ -706,8 +777,11 @@
 
         <article class="reveal rounded-3xl bg-white p-7 shadow-sm">
           <span class="flex h-12 w-12 items-center justify-center rounded-full bg-pink-200 text-xl font-black">03</span>
+
           <i class="ri-shield-check-line mt-6 block text-3xl text-sky-600" aria-hidden="true"></i>
+
           <h3 class="mt-4 text-xl font-bold">Confirm with Your School</h3>
+
           <p class="mt-3 leading-7 text-slate-500">
             Wait for transport confirmation and follow the instructions provided by the school or driver.
           </p>
@@ -719,11 +793,15 @@
         Booking confirmation and live tracking require a connected backend and verified transport providers.
       </p>
     </section>
+
+    <!-- Schools Section -->
     <section id="schools" class="px-6 py-16 sm:px-10 lg:px-14">
 
       <div class="reveal mb-10">
         <p class="font-bold uppercase tracking-[3px] text-pink-600">Our Local Focus</p>
+
         <h2 class="mt-3 text-3xl font-black sm:text-4xl">Made for Aurangabad.</h2>
+
         <p class="mt-3 max-w-2xl leading-7 text-slate-500">
           Designed for school commutes across the city. Families can enter their own school and pickup details when requesting transport.
         </p>
@@ -737,11 +815,13 @@
             decoding="async"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNtUu775G8upnszH2AbFmUsfMYF1yXfRd3WiJFITeeoA&s=10"
             alt="School campus"
-            class="h-40 w-full object-cover"
-          >
+            class="h-40 w-full object-cover">
+
           <div class="p-5">
             <i class="ri-school-line text-2xl text-sky-600" aria-hidden="true"></i>
+
             <h3 class="mt-3 font-bold">School Campuses</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-500">
               Choose the correct school when making a request.
             </p>
@@ -754,11 +834,13 @@
             decoding="async"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfXs0JO5XlThBzRITWeJYEUq-C-rbQWdCtxUXeZ1wK0A&s=10"
             alt="City streets"
-            class="h-40 w-full object-cover"
-          >
+            class="h-40 w-full object-cover">
+
           <div class="p-5">
             <i class="ri-road-map-line text-2xl text-pink-500" aria-hidden="true"></i>
+
             <h3 class="mt-3 font-bold">City Neighborhoods</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-500">
               Enter your locality and preferred pickup point.
             </p>
@@ -771,11 +853,13 @@
             decoding="async"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBavLLPqQID-GkcK0lidGT1nPkzinmBrOlAP0m67Sb5w&s=10"
             alt="Books and school supplies"
-            class="h-40 w-full object-cover"
-          >
+            class="h-40 w-full object-cover">
+
           <div class="p-5">
             <i class="ri-book-open-line text-2xl text-sky-600" aria-hidden="true"></i>
+
             <h3 class="mt-3 font-bold">School Schedules</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-500">
               Provide the travel times that fit your school day.
             </p>
@@ -788,11 +872,13 @@
             decoding="async"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLvF6vA-ktp46HmisBuTWJ1y0YmQk7gUfKwsRBkT8SNw&s=10"
             alt="Students together"
-            class="h-40 w-full object-cover"
-          >
+            class="h-40 w-full object-cover">
+
           <div class="p-5">
             <i class="ri-team-line text-2xl text-pink-500" aria-hidden="true"></i>
+
             <h3 class="mt-3 font-bold">Family Support</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-500">
               Keep transport arrangements clear for families.
             </p>
@@ -803,31 +889,37 @@
 
       <div class="mt-8 rounded-3xl border border-sky-100 bg-sky-50 p-6 sm:p-8">
         <h3 class="text-xl font-bold">Don't see your school listed?</h3>
+
         <p class="mt-2 text-slate-600">
           You can enter your school's name in the sign-up form.
         </p>
 
-        <a href="#student-access" class="mt-5 inline-block rounded-xl bg-[#202a38] px-5 py-3 font-bold text-white hover:bg-slate-700">
+        <a href="parent-login.html" class="primary-button mt-5">
           Register your details
-          <i class="ri-arrow-right-line ml-2" aria-hidden="true"></i>
+          <i class="ri-arrow-right-line" aria-hidden="true"></i>
         </a>
       </div>
     </section>
+
+    <!-- Safety Section -->
     <section id="safety" class="bg-[#202a38] px-6 py-16 text-white sm:px-10 lg:px-14">
 
       <div class="grid items-center gap-10 lg:grid-cols-2">
 
         <div class="reveal">
           <p class="font-bold uppercase tracking-[3px] text-sky-300">Safety First</p>
-          <h2 class="mt-3 text-3xl font-black sm:text-4xl">Every journey deserves care.</h2>
 
-          <p class="mt-5 leading-8 text-slate-300">
+          <h2 class="mt-3 text-3xl font-black sm:text-4xl">
+            Every journey deserves care.
+          </h2>
+
+          <p class="mt-4 leading-8 text-slate-300">
             School transport needs more than a booking form. Families should be able to confirm who operates the van, understand pickup arrangements and know how to contact the school.
           </p>
 
-          <a href="#student-access" class="mt-7 inline-block rounded-xl bg-sky-300 px-6 py-3 font-bold text-slate-900 hover:bg-sky-200">
+          <a href="parent-login.html" class="primary-button mt-7">
             Access your account
-            <i class="ri-arrow-right-line ml-2" aria-hidden="true"></i>
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </div>
 
@@ -835,7 +927,9 @@
 
           <article class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
             <i class="ri-shield-check-line text-3xl text-sky-300" aria-hidden="true"></i>
+
             <h3 class="mt-4 font-bold">Driver Verification</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-300">
               Schools should verify driver identity and relevant documents before approving service.
             </p>
@@ -843,7 +937,9 @@
 
           <article class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
             <i class="ri-phone-line text-3xl text-pink-300" aria-hidden="true"></i>
+
             <h3 class="mt-4 font-bold">Clear Communication</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-300">
               Keep school and parent contact procedures available for transport questions.
             </p>
@@ -851,7 +947,9 @@
 
           <article class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
             <i class="ri-map-pin-user-line text-3xl text-pink-300" aria-hidden="true"></i>
+
             <h3 class="mt-4 font-bold">Pickup Details</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-300">
               Use clear pickup and drop-off instructions agreed with the school.
             </p>
@@ -859,7 +957,9 @@
 
           <article class="rounded-2xl border border-slate-600 bg-slate-700/60 p-6">
             <i class="ri-parent-line text-3xl text-sky-300" aria-hidden="true"></i>
+
             <h3 class="mt-4 font-bold">Parent Awareness</h3>
+
             <p class="mt-2 text-sm leading-6 text-slate-300">
               Parents should receive confirmed arrangements before a student travels.
             </p>
@@ -872,9 +972,11 @@
         Safety information is guidance for the design concept. This website does not independently verify drivers or guarantee live location tracking.
       </p>
     </section>
+
+    <!-- Driver Dashboard Section -->
     <section class="px-6 py-16 sm:px-10 lg:px-14">
 
-      <div class="reveal grid overflow-hidden rounded-[30px] bg-pink-100 md:grid-cols-2">
+      <div class="reveal grid overflow-hidden rounded-3xl bg-pink-100 md:grid-cols-2">
 
         <div class="p-8 sm:p-12">
           <span class="rounded-full bg-white px-4 py-2 text-sm font-bold text-pink-700">
@@ -894,19 +996,21 @@
               <i class="ri-check-line mr-2 text-pink-600" aria-hidden="true"></i>
               View assigned student requests
             </li>
+
             <li>
               <i class="ri-check-line mr-2 text-pink-600" aria-hidden="true"></i>
               Review pickup information
             </li>
+
             <li>
               <i class="ri-check-line mr-2 text-pink-600" aria-hidden="true"></i>
               Access daily journey details
             </li>
           </ul>
 
-          <a href="#driver-access" class="mt-8 inline-block rounded-xl bg-[#202a38] px-6 py-4 font-bold text-white hover:bg-slate-700">
-            <i class="ri-steering-2-line mr-2" aria-hidden="true"></i>
+          <a href="driver-login.html" class="primary-button mt-6">
             Driver Login
+            <i class="ri-arrow-right-line" aria-hidden="true"></i>
           </a>
         </div>
 
@@ -916,14 +1020,15 @@
             decoding="async"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB4Hsnb6zrQoAETb0MVc1VajozCzlv_y0C9OGzygqv9Q&s=10"
             alt="Passenger transport vehicle"
-            class="absolute inset-0 h-full w-full object-cover"
-          >
+            class="absolute inset-0 h-full w-full object-cover">
 
           <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent"></div>
 
           <div class="absolute bottom-6 left-6 right-6 rounded-2xl bg-white/90 p-5 text-slate-800 backdrop-blur">
-            <i class="ri-calendar-check-line text-2xl text-sky-600" aria-hidden="true"></i>
-            <h3 class="mt-2 font-bold">Daily trip management</h3>
+            <i class="ri-calendar-check-line text-3xl text-sky-600" aria-hidden="true"></i>
+
+            <h3 class="mt-3 font-bold">Daily trip management</h3>
+
             <p class="mt-1 text-sm text-slate-600">
               A concept for organized school transport.
             </p>
@@ -932,12 +1037,15 @@
 
       </div>
     </section>
+
+    <!-- FAQ Section -->
     <section class="bg-white px-6 py-16 sm:px-10 lg:px-14">
 
       <div class="reveal mb-8 text-center">
         <p class="font-bold uppercase tracking-[3px] text-sky-700">
           Frequently Asked Questions
         </p>
+
         <h2 class="mt-3 text-3xl font-black sm:text-4xl">
           Things you might want to know.
         </h2>
@@ -946,28 +1054,40 @@
       <div class="mx-auto max-w-3xl space-y-4">
 
         <details class="reveal rounded-2xl border border-slate-200 p-5">
-          <summary class="cursor-pointer font-bold">Who can use SchoolVan?</summary>
+          <summary class="cursor-pointer font-bold">
+            Who can use SchoolVan?
+          </summary>
+
           <p class="mt-3 leading-7 text-slate-600">
             The concept is designed for parents, students, schools and school van drivers serving Aurangabad.
           </p>
         </details>
 
         <details class="reveal rounded-2xl border border-slate-200 p-5">
-          <summary class="cursor-pointer font-bold">Can I register if my school is not listed?</summary>
+          <summary class="cursor-pointer font-bold">
+            Can I register if my school is not listed?
+          </summary>
+
           <p class="mt-3 leading-7 text-slate-600">
             Yes. The sign-up form allows you to type your school's name directly.
           </p>
         </details>
 
         <details class="reveal rounded-2xl border border-slate-200 p-5">
-          <summary class="cursor-pointer font-bold">Can parents track the van live?</summary>
+          <summary class="cursor-pointer font-bold">
+            Can parents track the van live?
+          </summary>
+
           <p class="mt-3 leading-7 text-slate-600">
             Live tracking is a planned feature. It requires GPS data, a backend and permission from the transport provider.
           </p>
         </details>
 
         <details class="reveal rounded-2xl border border-slate-200 p-5">
-          <summary class="cursor-pointer font-bold">Are the login forms connected to a database?</summary>
+          <summary class="cursor-pointer font-bold">
+            Are the login forms connected to a database?
+          </summary>
+
           <p class="mt-3 leading-7 text-slate-600">
             No. They are front-end practice forms. Real accounts need secure authentication and a backend.
           </p>
@@ -975,13 +1095,18 @@
 
       </div>
     </section>
+
+    <!-- Contact Section -->
     <section id="contact" class="px-6 py-16 sm:px-10 lg:px-14">
 
-      <div class="reveal rounded-[30px] bg-sky-100 p-8 sm:p-12">
+      <div class="reveal mx-auto w-full rounded-3xl bg-sky-100 p-8 sm:p-12">
         <div class="grid items-center gap-8 md:grid-cols-2">
 
           <div>
-            <p class="font-bold uppercase tracking-[3px] text-sky-700">Let's Connect</p>
+            <p class="font-bold uppercase tracking-[3px] text-sky-700">
+              Let's Connect
+            </p>
+
             <h2 class="mt-3 text-3xl font-black sm:text-4xl">
               A better school commute starts here.
             </h2>
@@ -991,10 +1116,10 @@
             </p>
           </div>
 
-          <div class="rounded-2xl bg-white p-6 shadow-sm">
+          <div class="w-full rounded-2xl bg-white p-6 shadow-sm">
 
             <div class="flex items-center gap-4 border-b border-slate-100 pb-5">
-              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-pink-100 text-2xl text-pink-600">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-2xl text-sky-700">
                 <i class="ri-map-pin-line" aria-hidden="true"></i>
               </span>
 
@@ -1005,7 +1130,7 @@
             </div>
 
             <div class="flex items-center gap-4 border-b border-slate-100 py-5">
-              <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-sky-100 text-2xl text-sky-700">
+              <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-sky-100 text-2xl text-sky-700">
                 <i class="ri-school-line" aria-hidden="true"></i>
               </span>
 
@@ -1015,15 +1140,17 @@
               </div>
             </div>
 
-            <a href="#student-access" class="mt-5 block w-full rounded-xl bg-[#202a38] px-5 py-4 text-center font-bold text-white hover:bg-slate-700">
+            <a href="parent-login.html" class="primary-button mt-5 w-full">
               Get Started
-              <i class="ri-arrow-right-line ml-2" aria-hidden="true"></i>
+              <i class="ri-arrow-right-line" aria-hidden="true"></i>
             </a>
 
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Footer -->
     <footer class="bg-[#202a38] px-6 py-10 text-white sm:px-10 lg:px-14">
 
       <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -1042,36 +1169,34 @@
           <h3 class="font-bold">Explore</h3>
 
           <div class="mt-4 space-y-3 text-sm text-slate-400">
-            <a class="block hover:text-sky-300" href="#services">Services</a>
-            <a class="block hover:text-sky-300" href="#how">How It Works</a>
-            <a class="block hover:text-sky-300" href="#schools">Schools</a>
+            <a class="block transition hover:text-sky-300" href="#services">Services</a>
+            <a class="block transition hover:text-sky-300" href="#how">How It Works</a>
+            <a class="block transition hover:text-sky-300" href="#schools">Schools</a>
           </div>
         </div>
 
         <div>
           <h3 class="font-bold">Accounts</h3>
 
-          <div class="mt-4 space-y-3 text-sm text-slate-400">
-            <a class="block hover:text-sky-300" href="#student-access">Student / Parent Login</a>
-            <a class="block hover:text-sky-300" href="#student-access">Create Account</a>
-            <a class="block hover:text-sky-300" href="#driver-access">Driver Login</a>
-          </div>
+          <p class="mt-4 max-w-xs text-sm leading-6 text-slate-400">
+            Parent and driver sign-in options are available in the main navigation.
+          </p>
         </div>
 
         <div>
           <h3 class="font-bold">Our Values</h3>
 
-          <p class="mt-4 text-sm leading-7 text-slate-400">
-            Local service<br>
-            Clear communication<br>
-            Safety-conscious travel
-          </p>
+          <ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-slate-400">
+            <li>Local service</li>
+            <li>Clear communication</li>
+            <li>Safety-conscious travel</li>
+          </ul>
         </div>
 
       </div>
 
       <div class="mt-10 border-t border-slate-700 pt-6 text-center text-sm text-slate-400">
-        © 2026 SchoolVan Aurangabad All rights reserved
+        &copy; 2026 SchoolVan Aurangabad. All rights reserved.
       </div>
     </footer>
 
