@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Live School Van Tracking in Aurangabad | SchoolVan</title>
+    <meta name="description" content="View your school van tracking dashboard with route details, estimated arrival information and school transport safety updates for Aurangabad, Maharashtra.">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#202a38">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Live School Van Tracking | SchoolVan">
+    <meta property="og:description" content="Check school van route information, trip status and transport safety updates in Aurangabad, Maharashtra.">
+    <meta property="og:locale" content="en_IN">
+
+    <link rel="canonical" href="https://www.example.com/live-tracking.html">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: #f5f8fc;
+            color: #202a38;
+        }
+
+        a, button, summary {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        summary:focus-visible,
+        input:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #0284c7;
+            outline-offset: 4px;
+        }
+
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(14px);
+        }
+
+        .hero-bg {
+            background:
+                radial-gradient(circle at 90% 15%, rgba(251, 207, 232, 0.7), transparent 30%),
+                radial-gradient(circle at 10% 90%, rgba(125, 211, 252, 0.35), transparent 32%),
+                #ffffff;
+        }
+
+        .soft-card {
+            background: #ffffff;
+            border: 1px solid #e7edf5;
+            border-radius: 22px;
+            box-shadow: 0 12px 35px rgba(32, 42, 56, 0.045);
+        }
+
+        .map {
+            background-color: #eaf4f7;
+            background-image:url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRd_osh5684ZLNBPFNMHW1MTErcx7r2uwEYRBq1D9STeg&s=10');
+			background-size:100% 100%;
+			background-position:center;
+        }
+
+        .route-line {
+            height: 5px;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #38bdf8 0%, #0284c7 55%, #f9a8d4 100%);
+        }
+
+        .mobile-menu-panel {
+            display: none;
+        }
+
+        .mobile-menu[open] .mobile-menu-panel {
+            display: grid;
+        }
+
+        .tracking-dot {
+            width: 16px;
+            height: 16px;
+            border: 4px solid white;
+            border-radius: 50%;
+            background: #0284c7;
+            box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.2);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="glass-nav sticky top-0 z-50 border-b border-slate-100">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4 lg:px-8"
+             aria-label="Main navigation">
+
+            <a href="index.html" class="flex items-center gap-3" aria-label="SchoolVan home">
+                <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-100 text-2xl text-sky-600">
+                    <i class="ri-bus-2-fill" aria-hidden="true"></i>
+                </span>
+                <span>
+                    <span class="block text-xl font-extrabold tracking-tight">School<span class="text-sky-500">Van</span></span>
+                    <span class="block text-xs text-slate-500">Safer school journeys</span>
+                </span>
+            </a>
+
+            <div class="hidden items-center gap-7 lg:flex">
+                <a href="index.html" class="text-sm font-semibold text-slate-600 hover:text-sky-600">Home</a>
+                <a href="book-van.html" class="text-sm font-semibold text-slate-600 hover:text-sky-600">Book a Van</a>
+                <a href="schools.html" class="text-sm font-semibold text-slate-600 hover:text-sky-600">Schools</a>
+                <a href="live-tracking.html" aria-current="page" class="text-sm font-bold text-sky-600">Live Tracking</a>
+                <a href="help.html" class="text-sm font-semibold text-slate-600 hover:text-sky-600">Help</a>
+            </div>
+
+            <div class="hidden items-center gap-3 lg:flex">
+                <a href="parent-login.html" class="rounded-full px-5 py-3 text-sm font-bold text-slate-700 hover:bg-slate-100">
+                    Parent Login
+                </a>
+                <a href="book-van.html" class="rounded-full bg-sky-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-sky-200 hover:bg-sky-600">
+                    Book a Van <i class="ri-arrow-right-line ml-1" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <details class="mobile-menu relative lg:hidden">
+                <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl bg-slate-100 text-2xl"
+                         aria-label="Open navigation menu">
+                    <i class="ri-menu-3-line" aria-hidden="true"></i>
+                </summary>
+                <div class="mobile-menu-panel absolute right-0 top-14 w-64 gap-1 rounded-2xl border border-slate-100 bg-white p-4 shadow-xl">
+                    <a href="index.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Home</a>
+                    <a href="book-van.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Book a Van</a>
+                    <a href="schools.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Schools Directory</a>
+                    <a href="live-tracking.html" aria-current="page" class="rounded-lg bg-sky-50 px-4 py-3 text-sm font-bold text-sky-700">Live Van Tracking</a>
+                    <a href="parent-login.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Parent Login</a>
+                    <a href="driver-login.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Driver Login</a>
+                    <a href="help.html" class="rounded-lg px-4 py-3 text-sm font-semibold hover:bg-sky-50">Help & Support</a>
+                </div>
+            </details>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero-bg px-5 py-14 sm:py-20 lg:px-8">
+            <div class="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
+
+                <div>
+                    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700">
+                        <i class="ri-map-pin-line" aria-hidden="true"></i>
+                        School transport tracking
+                    </div>
+
+                    <h1 class="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+                        Live School Van Tracking in
+                        <span class="text-sky-500">Aurangabad</span>
+                    </h1>
+
+                    <p class="mt-6 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
+                        Find your school van's route information, check trip status and
+                        review arrival updates in one place. SchoolVan is designed to
+                        support parents and schools in Aurangabad, also known as
+                        Chhatrapati Sambhajinagar, Maharashtra.
+                    </p>
+
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a href="parent-login.html" class="inline-flex items-center gap-2 rounded-full bg-sky-500 px-7 py-4 font-bold text-white shadow-lg shadow-sky-200 hover:bg-sky-600">
+                            <i class="ri-user-line" aria-hidden="true"></i>
+                            Parent Login
+                        </a>
+                        <a href="#tracking-dashboard" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-7 py-4 font-bold text-slate-700 hover:border-sky-300">
+                            View Tracking Demo
+                            <i class="ri-arrow-down-line" aria-hidden="true"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm text-slate-600">
+                        <span class="flex items-center gap-2">
+                            <i class="ri-shield-check-line text-xl text-sky-500" aria-hidden="true"></i>
+                            Parent-focused access
+                        </span>
+                        <span class="flex items-center gap-2">
+                            <i class="ri-route-line text-xl text-sky-500" aria-hidden="true"></i>
+                            Route information
+                        </span>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="absolute -right-4 -top-5 h-28 w-28 rounded-full bg-pink-200/60 blur-2xl" aria-hidden="true"></div>
+                    <div class="absolute -bottom-5 -left-5 h-32 w-32 rounded-full bg-sky-200/70 blur-2xl" aria-hidden="true"></div>
+
+                    <div class="soft-card relative overflow-hidden p-4 sm:p-6">
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-semibold text-slate-500">Tracking preview</p>
+                                <h2 class="mt-1 text-xl font-extrabold">School route overview</h2>
+                            </div>
+                            <span class="rounded-full bg-amber-50 px-3 py-2 text-xs font-bold text-amber-700">
+                                DEMO
+                            </span>
+                        </div>
+
+                        <div class="map relative mt-5 h-64 overflow-hidden rounded-2xl sm:h-80"
+                             role="img"
+                             aria-label="Illustrative school van route map with pickup point, route line and school destination. This is not a live map.">
+		
+                        </div>
+
+                        <div class="mt-5 grid grid-cols-2 gap-3">
+                            <div class="rounded-2xl bg-sky-50 p-4">
+                                <p class="text-xs font-semibold text-slate-500">Trip status</p>
+                                <p class="mt-2 font-extrabold text-sky-700">Demo preview</p>
+                            </div>
+                            <div class="rounded-2xl bg-pink-50 p-4">
+                                <p class="text-xs font-semibold text-slate-500">Arrival estimate</p>
+                                <p class="mt-2 font-extrabold text-slate-700">Not available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracking dashboard -->
+        <section id="tracking-dashboard" class="px-5 py-16 lg:px-8">
+            <div class="mx-auto max-w-7xl">
+
+                <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="text-sm font-extrabold uppercase tracking-widest text-sky-600">Tracking dashboard</p>
+                        <h2 class="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Your van journey, clearly explained</h2>
+                        <p class="mt-4 max-w-2xl leading-7 text-slate-600">
+                            Sign in through your parent account to access trip details
+                            provided by your school or transport operator.
+                        </p>
+                    </div>
+                    <a href="parent-login.html" class="inline-flex items-center justify-center gap-2 rounded-full bg-slate-900 px-6 py-3 font-bold text-white hover:bg-slate-700">
+                        Sign in securely <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-3">
+                    <article class="soft-card p-6">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-2xl text-sky-600">
+                            <i class="ri-map-pin-user-line" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-extrabold">Van location</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            View the latest location shared by an authorised tracking
+                            device, when this service is connected and available.
+                        </p>
+                        <p class="mt-4 text-sm font-semibold text-amber-700">GPS integration required</p>
+                    </article>
+
+                    <article class="soft-card p-6">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-100 text-2xl text-pink-500">
+                            <i class="ri-time-line" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-extrabold">Arrival information</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            Check estimated pickup or school arrival information when
+                            current route and traffic data are available.
+                        </p>
+                        <p class="mt-4 text-sm font-semibold text-amber-700">Live data required</p>
+                    </article>
+
+                    <article class="soft-card p-6">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-100 text-2xl text-indigo-500">
+                            <i class="ri-route-line" aria-hidden="true"></i>
+                        </div>
+                        <h3 class="mt-5 text-lg font-extrabold">Route details</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            Review the approved school route and designated pickup
+                            points provided by your transport operator.
+                        </p>
+                        <p class="mt-4 text-sm font-semibold text-sky-700">Check with your school</p>
+                    </article>
+                </div>
+
+                <div class="mt-8 rounded-2xl border border-amber-200 bg-amber-50 p-5 sm:p-6">
+                    <div class="flex items-start gap-3">
+                        <i class="ri-information-line mt-0.5 text-2xl text-amber-700" aria-hidden="true"></i>
+                        <div>
+                            <h3 class="font-extrabold text-amber-900">Important tracking notice</h3>
+                            <p class="mt-2 text-sm leading-7 text-amber-900">
+                                This page currently displays a design preview, not a real
+                                tracking service. It does not access GPS, identify a real van,
+                                calculate arrival times or receive location updates. Connect
+                                an authenticated backend and a GPS/map provider before using
+                                it for actual school journeys.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="bg-white px-5 py-16 lg:px-8">
+            <div class="mx-auto max-w-7xl">
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="text-sm font-extrabold uppercase tracking-widest text-sky-600">Simple process</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">How school van tracking works</h2>
+                    <p class="mt-4 leading-7 text-slate-600">
+                        A connected tracking system helps authorised parents follow
+                        the school transport journey using verified trip information.
+                    </p>
+                </div>
+
+                <div class="mt-12 grid gap-6 md:grid-cols-3">
+                    <article class="rounded-3xl border border-slate-100 bg-slate-50 p-7">
+                        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500 text-xl font-extrabold text-white">01</span>
+                        <h3 class="mt-5 text-xl font-extrabold">Sign in</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            Use the parent account linked to the correct student and
+                            school transport booking.
+                        </p>
+                    </article>
+
+                    <article class="rounded-3xl border border-slate-100 bg-slate-50 p-7">
+                        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-400 text-xl font-extrabold text-white">02</span>
+                        <h3 class="mt-5 text-xl font-extrabold">Select a trip</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            Choose the assigned vehicle and trip shown in your
+                            authorised dashboard.
+                        </p>
+                    </article>
+
+                    <article class="rounded-3xl border border-slate-100 bg-slate-50 p-7">
+                        <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-800 text-xl font-extrabold text-white">03</span>
+                        <h3 class="mt-5 text-xl font-extrabold">Review updates</h3>
+                        <p class="mt-3 leading-7 text-slate-600">
+                            Read available route, location and arrival information.
+                            Contact the school if updates are missing.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+        <section class="px-5 py-16 lg:px-8">
+            <div class="mx-auto grid max-w-7xl gap-10 lg:grid-cols-2 lg:items-center">
+                <div>
+                    <p class="text-sm font-extrabold uppercase tracking-widest text-sky-600">Local school transport</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">
+                        School van tracking for Aurangabad, Maharashtra
+                    </h2>
+                    <p class="mt-5 leading-8 text-slate-600">
+                        SchoolVan is being designed for school transport journeys in
+                        Aurangabad, officially also known as Chhatrapati Sambhajinagar,
+                        Maharashtra. Parents should confirm with their school whether
+                        the assigned van supports GPS tracking and whether access to
+                        route updates is enabled.
+                    </p>
+                    <p class="mt-4 leading-8 text-slate-600">
+                        Before relying on any arrival estimate, check the last update
+                        time and contact the authorised school transport team if the
+                        displayed information appears old or incorrect.
+                    </p>
+                    <a href="schools.html" class="mt-7 inline-flex items-center gap-2 font-extrabold text-sky-700 hover:text-sky-900">
+                        Explore the schools directory <i class="ri-arrow-right-line" aria-hidden="true"></i>
+                    </a>
+                </div>
+
+                <div class="soft-card p-7 sm:p-9">
+                    <h3 class="text-xl font-extrabold">Before using live tracking</h3>
+                    <ul class="mt-6 space-y-5">
+                        <li class="flex gap-3">
+                            <i class="ri-checkbox-circle-fill mt-0.5 text-xl text-sky-500" aria-hidden="true"></i>
+                            <span class="leading-7 text-slate-600">Confirm that your school or transport provider offers GPS tracking.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <i class="ri-checkbox-circle-fill mt-0.5 text-xl text-sky-500" aria-hidden="true"></i>
+                            <span class="leading-7 text-slate-600">Use the official parent account rather than sharing private trip links publicly.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <i class="ri-checkbox-circle-fill mt-0.5 text-xl text-sky-500" aria-hidden="true"></i>
+                            <span class="leading-7 text-slate-600">Check when the location was last updated before relying on it.</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <i class="ri-checkbox-circle-fill mt-0.5 text-xl text-sky-500" aria-hidden="true"></i>
+                            <span class="leading-7 text-slate-600">Contact the school if a van is delayed or tracking information is unavailable.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="bg-white px-5 py-16 lg:px-8">
+            <div class="mx-auto max-w-4xl">
+                <div class="text-center">
+                    <p class="text-sm font-extrabold uppercase tracking-widest text-sky-600">Help centre</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">Live Van Tracking FAQs</h2>
+                    <p class="mt-4 leading-7 text-slate-600">
+                        Answers to common questions about school van location and trip updates.
+                    </p>
+                </div>
+
+                <div class="mt-10 space-y-4">
+                    <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <summary class="cursor-pointer font-bold text-slate-800">
+                            How can I track my child's school van?
+                        </summary>
+                        <p class="mt-4 leading-7 text-slate-600">
+                            Sign in to the authorised parent dashboard and select the
+                            assigned trip if your school provides GPS tracking. This
+                            sample page does not display a real vehicle location.
+                        </p>
+                    </details>
+
+                    <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <summary class="cursor-pointer font-bold text-slate-800">
+                            Does SchoolVan show the van's live location?
+                        </summary>
+                        <p class="mt-4 leading-7 text-slate-600">
+                            The current page is a front-end demo. Live location requires
+                            a GPS device or authorised mobile location source, a secure
+                            backend, and a connected map or tracking service.
+                        </p>
+                    </details>
+
+                    <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <summary class="cursor-pointer font-bold text-slate-800">
+                            Can I see the estimated arrival time?
+                        </summary>
+                        <p class="mt-4 leading-7 text-slate-600">
+                            An estimated arrival time can only be provided when the
+                            system has suitable current location, route and travel-time
+                            data. This demo does not calculate arrival times.
+                        </p>
+                    </details>
+
+                    <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <summary class="cursor-pointer font-bold text-slate-800">
+                            What should I do if van tracking is not updating?
+                        </summary>
+                        <p class="mt-4 leading-7 text-slate-600">
+                            Check the last update time and contact your school or
+                            authorised transport operator. Do not rely on a stale
+                            location as proof of a vehicle's current position.
+                        </p>
+                    </details>
+
+                    <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                        <summary class="cursor-pointer font-bold text-slate-800">
+                            Is the school van's location public?
+                        </summary>
+                        <p class="mt-4 leading-7 text-slate-600">
+                            Real student transport location data should be restricted
+                            to authorised users. Avoid publishing live vehicle locations,
+                            student details or private trip links on public pages.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="px-5 py-16 lg:px-8">
+            <div class="mx-auto max-w-7xl overflow-hidden rounded-[2rem] bg-slate-900 px-6 py-12 text-white sm:px-12 lg:flex lg:items-center lg:justify-between">
+                <div class="max-w-2xl">
+                    <p class="font-bold text-sky-300">SchoolVan support</p>
+                    <h2 class="mt-3 text-3xl font-extrabold sm:text-4xl">
+                        Need help with your school transport?
+                    </h2>
+                    <p class="mt-4 leading-7 text-slate-300">
+                        Find your school, review your booking options or contact the
+                        support team for help with tracking access.
+                    </p>
+                </div>
+
+                <div class="mt-8 flex flex-wrap gap-3 lg:mt-0">
+                    <a href="book-van.html" class="rounded-full bg-sky-500 px-6 py-4 font-bold text-white hover:bg-sky-400">
+                        Book a School Van
+                    </a>
+                    <a href="contact.html" class="rounded-full border border-slate-600 px-6 py-4 font-bold text-white hover:bg-slate-800">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white px-5 pb-8 pt-12 lg:px-8">
+        <div class="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="sm:col-span-2">
+                <a href="index.html" class="inline-flex items-center gap-3">
+                    <span class="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-100 text-2xl text-sky-600">
+                        <i class="ri-bus-2-fill" aria-hidden="true"></i>
+                    </span>
+                    <span class="text-xl font-extrabold">School<span class="text-sky-500">Van</span></span>
+                </a>
+                <p class="mt-4 max-w-md leading-7 text-slate-500">
+                    A school transport platform concept focused on helping families
+                    find van booking and tracking information in Aurangabad,
+                    Maharashtra.
+                </p>
+            </div>
+
+            <div>
+                <h2 class="font-extrabold">Explore</h2>
+                <ul class="mt-4 space-y-3 text-sm text-slate-500">
+                    <li><a href="index.html" class="hover:text-sky-600">Home</a></li>
+                    <li><a href="book-van.html" class="hover:text-sky-600">Book a Van</a></li>
+                    <li><a href="schools.html" class="hover:text-sky-600">Schools Directory</a></li>
+                    <li><a href="live-tracking.html" class="hover:text-sky-600">Live Van Tracking</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="font-extrabold">Support</h2>
+                <ul class="mt-4 space-y-3 text-sm text-slate-500">
+                    <li><a href="parent-login.html" class="hover:text-sky-600">Parent Login</a></li>
+                    <li><a href="driver-login.html" class="hover:text-sky-600">Driver Login</a></li>
+                    <li><a href="help.html" class="hover:text-sky-600">Help Centre</a></li>
+                    <li><a href="contact.html" class="hover:text-sky-600">Contact Us</a></li>
+                    <li><a href="privacy.html" class="hover:text-sky-600">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mx-auto mt-10 flex max-w-7xl flex-col justify-between gap-3 border-t border-slate-100 pt-6 text-sm text-slate-500 sm:flex-row">
+            <p>© 2026 SchoolVan. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
